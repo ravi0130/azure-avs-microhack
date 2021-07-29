@@ -3,50 +3,37 @@
 // with "--parameter .\param\main.param.json" if parameters are used
 
 // Location to deploy the below resources
-param location string = 'westeurope'
+param location string = 'canadacentral'
 
 // If you want to deploy the Express Route (ER) gateway : true. Otherwise : false
 param deployEr bool = false
 
+// Change the scope to be able to create the resource group before resources
+// then we specify scope at resourceGroup level for all others resources
+targetScope = 'subscription'
+
+resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
+  name: 'azure-avs-microhack-rg'
+  location: location
+}
+
 
 // Create base virtual network to host the Jumpbox and the Express Route gateway
-resource adminVnet 'Microsoft.Network/virtualNetworks@2020-11-01' = {
+module adminVnet './_modules/vnet.bicep' = {
   name: 'adminVnet'
-  location: location
-  properties: {
-    addressSpace: {
-      addressPrefixes: [
-        '172.23.0.0/24'
-      ]
-    }
-    subnets: [
-      {
-        name: 'GatewaySubnet'
-        properties: {
-          addressPrefix: '172.23.0.0/27'
-        }
-      }
-      {
-        name: 'jumpbox'
-        properties: {
-          addressPrefix: '172.23.0.32/27'
-        }
-      }
-      {
-        name: 'AzureBastionSubnet'
-        properties: {
-          addressPrefix: '172.23.0.64/27'
-        }
-      }
-    ]
+  scope: rg
+  params: {
+    location: location
+    name: 'adminVnet'
   }
 }
 
 // Create the Express Route gateway in the base virtual network
 module ergw './_modules/ergw.bicep' = if(deployEr) {
   name: 'er-gw'
+  scope: rg
   params: {
-    gwSubnetId: adminVnet.properties.subnets[0].id
+    gwSubnetId: adminVnet.outputs.subnets[0].id
     location: location
     name: 'er-gw'
   }
@@ -56,9 +43,10 @@ module ergw './_modules/ergw.bicep' = if(deployEr) {
 
 module jumpboxVm './_modules/vm.bicep' = {
   name: 'jumpbox'
+  scope: rg
   params: {
     location: location
-    subnetId: adminVnet.properties.subnets[1].id
+    subnetId: adminVnet.outputs.subnets[1].id
     vmName: 'jumpbox'
     createPublicIpNsg: true
   }
@@ -68,9 +56,10 @@ module jumpboxVm './_modules/vm.bicep' = {
 
 module bastionHost '_modules/bastion.bicep' = {
   name: 'bastion'
+  scope: rg
   params: {
     location: location
     name: 'bastion'
-    subnetId: adminVnet.properties.subnets[2].id
+    subnetId: adminVnet.outputs.subnets[2].id
   } 
 }
