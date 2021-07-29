@@ -6,7 +6,7 @@
 param location string = 'canadacentral'
 
 // If you want to deploy the Express Route (ER) gateway : true. Otherwise : false
-param deployEr bool = false
+param deployEr bool = true
 
 // Change the scope to be able to create the resource group before resources
 // then we specify scope at resourceGroup level for all others resources

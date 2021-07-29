@@ -35,15 +35,12 @@ You will connect this piece of the architecture to the AVS deployment in Azure l
 
 To make the most of your time on this MircoHack, the green elements in the diagram above are deployed and configured for you through BICEP.
 
-### Task 1: deploy
+### Task 1 : deploy
 
 Steps:
 
 - Log in to Azure Cloud Shell at [https://shell.azure.com/](https://shell.azure.com/) and select Bash
-- Ensure Azure CLI and extensions are up to date:
-  
-  `az upgrade --yes`
-  
+
 - If necessary select your target subscription:
   
   `az account set --subscription <Name or ID of subscription>`
@@ -58,11 +55,11 @@ Steps:
 
 - Now start the deployment (when prompted, confirm with **yes** to start the deployment):
 
-  `az deployment group create -n rg-deploy -g azure-avs-microhack-rg --template-file 0-main.bicep`
+  `az deployment sub create -n rg-deploy -l canadacentral --template-file 0-main.bicep`
 
 Deployment takes approximately 30 minutes.
 
-## Task 2: Explore and verify
+### Task 2 : Explore and verify
 
 After the BICEP deployment concludes successfully, the following has been deployed into your subscription:
 
@@ -82,6 +79,6 @@ Credentials are identical for all VMs, as follows:
 
 You may log on to the jumpbox VM through Bastion to test access is successfull.
 
-### Review material
+### Task3 : Review material
 
 Please watch the [Azure vMware Solution overview](https://www.site.placeholder) before the Microhack delivery day.
