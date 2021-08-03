@@ -41,6 +41,10 @@ Steps:
 
 - Log in to Azure Cloud Shell at [https://shell.azure.com/](https://shell.azure.com/) and select Bash
 
+- Check if the current subscription is the one you want to deploy resources to :
+
+  `az account show`
+
 - If necessary select your target subscription:
   
   `az account set --subscription <Name or ID of subscription>`
@@ -69,6 +73,8 @@ After the BICEP deployment concludes successfully, the following has been deploy
     - An Express Route gateway,
     - A Windows Server Jumbox,
     - A bastion host.
+
+- **The VM will have an auto-shutdown scheduled at night to save cost in your subscription. REMEMBER TO POWER IT ON THE D DAY !**
 
 Verify these resources are present in the portal.
 
