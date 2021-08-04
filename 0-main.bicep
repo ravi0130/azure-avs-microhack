@@ -30,7 +30,7 @@ param hackerId int
 targetScope = 'subscription'
 
 resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-  name: 'azure-avs-microhack-rg0'
+  name: 'azure-avs-microhack-rg'
   location: location
 }
 
