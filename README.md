@@ -13,9 +13,11 @@ In this Microhack, you will :
 
 This lab is built of :
 
-- vMware vSphere Clusters hosted on-premises,
-- the AVS solution hosted in Azure regions,
-- A jumpbox deployed in Azure to control the overall architecture.
+- 3 vMware vSphere Clusters hosted on-premises along with 3 vCenters,
+- 3 AVS solution hosted in Azure regions aligned with the 3 vCenters instances,
+- A jumpbox per hacker deployed in Azure to control a sepcific AVS instance.
+
+Each pair of AVS + on-premises cluster is assigned a unique IP range for the jumpbox. [IP ranges info](docs/Appendix.md)
 
 ## Prerequisites
 

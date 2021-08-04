@@ -8,12 +8,29 @@ param location string = 'canadacentral'
 // If you want to deploy the Express Route (ER) gateway : true. Otherwise : false
 param deployEr bool = true
 
+// Hacker number to pick the correct IP ranges
+@allowed([
+  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+  10
+  11
+  12
+])
+param hackerId int
+
 // Change the scope to be able to create the resource group before resources
 // then we specify scope at resourceGroup level for all others resources
 targetScope = 'subscription'
 
 resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-  name: 'azure-avs-microhack-rg'
+  name: 'azure-avs-microhack-rg0'
   location: location
 }
 
@@ -25,6 +42,7 @@ module adminVnet './_modules/vnet.bicep' = {
   params: {
     location: location
     name: 'adminVnet'
+    hackerId: hackerId
   }
 }
 
