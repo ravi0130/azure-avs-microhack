@@ -63,6 +63,8 @@ Steps:
 
   `az deployment sub create -n rg-deploy -l canadacentral --template-file 0-main.bicep`
 
+- You will be asked to enter the ID of the hacker you registered to in the excel file so you'll get assigned a unique IP range for your deployment.
+
 Deployment takes approximately 30 minutes.
 
 ### Task 2 : Explore and verify
