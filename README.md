@@ -95,3 +95,62 @@ You may check on the VPN gateway / connection tab, that the connection toHub is 
 ### Task3 : Review material
 
 Please watch the [Azure vMware Solution overview](https://www.site.placeholder) before the Microhack delivery day.
+
+## Proctor deployment
+
+
+### Task 1: deploy
+
+This must be deployed **only once** per MicroHack and can survive for following MicroHacks. It must be deployed in a **proctor subscription** :
+
+Steps:
+
+- Log in to Azure Cloud Shell at [https://shell.azure.com/](https://shell.azure.com/) and select Bash
+
+- Check if the current subscription is the one you want to deploy resources to :
+
+  `az account show`
+
+- If necessary select your target subscription:
+  
+  `az account set --subscription <Name or ID of subscription>`
+  
+- Clone the  GitHub repository:
+  
+  `git clone https://github.com/alexandreweiss/azure-avs-microhack`
+  
+  - Change directory:
+  
+  `cd ./azure-avs-microhack/proctor`
+
+- Now start the deployment (when prompted, confirm with **yes** to start the deployment):
+
+  `az deployment sub create -n rg-deploy-proctor -l canadacentral --template-file 0-main.bicep`
+
+### Task 2 : Explore and verify
+
+After the BICEP deployment concludes successfully, the following has been deployed into your subscription:
+
+- A resource group named **azure-avs-microhack-proctor-1-rg** containing :
+  - A VNET with a Gateway subnet, a Jumpbox subnet and an Azure Bastion subnet.
+  - In each of those subnets :
+    - A VPN gateway connected to users VPN gateways,
+    - An ER gateway,
+    - An Azure Route Server to route branch to branch traffic,
+    - A Windows Server Jumbox,
+    - A bastion host.
+
+- **The VM will have an auto-shutdown scheduled at night to save cost in your subscription. REMEMBER TO POWER IT ON THE D DAY !**
+
+Verify these resources are present in the portal.
+
+Credentials are identical for all VMs, as follows:
+
+- Username: admin-avs
+- Password: MicroHack/123
+
+You may log on to the jumpbox VM through Bastion to test access is successfull.
+
+You may check BGP is up between Azure Route Server and VPN Gateway by checking the 'BGP Peers' tab on the VPN gateway screen.
+
+Route Server is in Public Preview and is accessible only via https://aka.ms/routeserver

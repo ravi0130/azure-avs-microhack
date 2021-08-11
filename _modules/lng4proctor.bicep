@@ -5,6 +5,9 @@ param userId int
 
 var userIdIndex = userId - 1
 
+// We use a custom domain name as Public IP attached to VPN GWs cannot have a DNS prefix that works ...
+var dnsDomain = 'ananableu.fr'
+
 resource lng 'Microsoft.Network/localNetworkGateways@2021-02-01' = {
   name: name
   location: location
@@ -13,7 +16,8 @@ resource lng 'Microsoft.Network/localNetworkGateways@2021-02-01' = {
       asn: usersIpRanges[userIdIndex].asn
       bgpPeeringAddress: usersIpRanges[userIdIndex].ownBgpIp
     }
-    fqdn: '${usersIpRanges[userIdIndex].vpnGatewayDnsPrefix}.${location}.cloudapp.azure.com'
+    fqdn: '${usersIpRanges[userIdIndex].vpnGatewayDnsPrefix}.${dnsDomain}'
+    
     localNetworkAddressSpace: {
       addressPrefixes: [
         '${usersIpRanges[userIdIndex].ownBgpIp}/32'

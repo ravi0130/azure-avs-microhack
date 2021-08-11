@@ -13,7 +13,7 @@ param deployGateway bool = true
 targetScope = 'subscription'
 
 resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-  name: 'azure-avs-microhack-proctor0-rg'
+  name: 'azure-avs-microhack-proctor-1-rg'
   location: location
 }
 
@@ -32,6 +32,9 @@ module adminVnet '../_modules/vnet.bicep' = {
 // Create the VPN gateway in the base virtual network
 module vpnGw '../_modules/vpngw.bicep' = if(deployGateway) {
   name: 'vpn-gw'
+  dependsOn: [
+    erGw
+  ]
   scope: rg
   params: {
     gwSubnetId: adminVnet.outputs.subnets[0].id
@@ -41,18 +44,6 @@ module vpnGw '../_modules/vpngw.bicep' = if(deployGateway) {
     usersIpRanges: adminVnet.outputs.usersIpRanges
   }
 }
-
-// // LNG to Hub
-// module lngToUsers '../_modules/lng.bicep' = [ for user in range(1,12): {
-//   scope: rg
-//   name: 'lngToUser-${user}'
-//   params: {
-//     location: location
-//     name: 'lngToUser-${user}'
-//     userId: user
-//     usersIpRanges: adminVnet.outputs.usersIpRanges
-//   }
-// }]
 
 // LNG to Hub
 module lngToUsers '../_modules/lng4proctor.bicep' = [ for user in range(1,12): {
@@ -93,6 +84,9 @@ module erGw '../_modules/ergw.bicep' = if(deployGateway) {
 // Create the route server
 module routeServer '../_modules/routeserver.bicep' = {
   scope: rg
+  dependsOn: [
+    vpnGw
+  ]
   name: 'routeServer'
   params: {
     location: location
