@@ -15,7 +15,7 @@ This lab is built of :
 
 - 3 vMware vSphere Clusters hosted on-premises along with 3 vCenters,
 - 3 AVS solution hosted in Azure regions aligned with the 3 vCenters instances,
-- A jumpbox per hacker deployed in Azure to control a sepcific AVS instance.
+- A jumpbox per user deployed in Azure to control a sepcific AVS instance.
 
 Each pair of AVS + on-premises cluster is assigned a unique IP range for the jumpbox. [IP ranges info](docs/Appendix.md)
 
@@ -30,10 +30,11 @@ We use [BICEP artifacts](https://docs.microsoft.com/en-us/azure/azure-resource-m
 Those artifacts contain bicep files to deploy :
 
 - An Azure Virtual Network named "adminVnet";
-- An Express Route Gateway inside the "GatewaySubnet" of this vnet,
+- A VPN Gateway inside the "GatewaySubnet" of this vnet,
 - A Windows 2019 Virtual Machine used as a jumpbox inside the "JumpboxSubnet"
+- A bastion service to connect to the jumpbox
 
-You will connect this piece of the architecture to the AVS deployment in Azure later on.
+This deployment will be connected to the proctor adminVnet containing the Express Route gateway that will give you access to both on-premises vMware environements and AVS.
 
 To make the most of your time on this MircoHack, the green elements in the diagram above are deployed and configured for you through BICEP.
 
@@ -57,13 +58,13 @@ Steps:
   
   - Change directory:
   
-  `cd ./azure-avs-microhack`
+  `cd ./azure-avs-microhack/users`
 
 - Now start the deployment (when prompted, confirm with **yes** to start the deployment):
 
-  `az deployment sub create -n rg-deploy -l canadacentral --template-file 0-main.bicep`
+  `az deployment sub create -n rg-deploy-user -l canadacentral --template-file 0-main.bicep`
 
-- You will be asked to enter the ID of the hacker you registered to in the excel file so you'll get assigned a unique IP range for your deployment.
+- You will be asked to enter the ID of the user you registered to in the excel file so you'll get assigned a unique IP range for your deployment.
 
 Deployment takes approximately 30 minutes.
 
@@ -71,10 +72,10 @@ Deployment takes approximately 30 minutes.
 
 After the BICEP deployment concludes successfully, the following has been deployed into your subscription:
 
-- A resource group named **azure-avs-microhack-rg** containing :
+- A resource group named **azure-avs-microhack-user-XX-rg** containing :
   - A VNET with a Gateway subnet, a Jumpbox subnet and an Azure Bastion subnet.
   - In each of those subnets :
-    - An Express Route gateway,
+    - A VPN gateway connected to proctor gateway,
     - A Windows Server Jumbox,
     - A bastion host.
 
@@ -88,6 +89,8 @@ Credentials are identical for all VMs, as follows:
 - Password: MicroHack/123
 
 You may log on to the jumpbox VM through Bastion to test access is successfull.
+
+You may check on the VPN gateway / connection tab, that the connection toHub is in status "connected".
 
 ### Task3 : Review material
 
