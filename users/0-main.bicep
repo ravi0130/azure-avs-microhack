@@ -27,6 +27,9 @@ param deployGateway bool = true
 ])
 param userId int
 
+// Default to 1 as it is the only supported ID for real microhack deployment
+param proctorId int = 1
+
 // Change the scope to be able to create the resource group before resources
 // then we specify scope at resourceGroup level for all others resources
 targetScope = 'subscription'
@@ -45,6 +48,7 @@ module adminVnet '../_modules/vnet.bicep' = {
     location: location
     name: 'adminVnet'
     userId: userId
+    proctorId: proctorId
   }
 }
 

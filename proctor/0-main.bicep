@@ -8,12 +8,21 @@ param location string = 'canadacentral'
 // If you want to deploy the Express Route (ER) gateway : true. Otherwise : false
 param deployGateway bool = true
 
+// Proctor number. Always use 1 instead you have to deploy a test proctor instance as all proctor instances uses sames IPs
+@allowed([
+  1
+  2
+  3
+  4
+])
+param proctorId int = 1
+
 // Change the scope to be able to create the resource group before resources
 // then we specify scope at resourceGroup level for all others resources
 targetScope = 'subscription'
 
 resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-  name: 'azure-avs-microhack-proctor-1-rg'
+  name: 'azure-avs-microhack-proctor-${proctorId}-rg'
   location: location
 }
 
@@ -26,6 +35,7 @@ module adminVnet '../_modules/vnet.bicep' = {
     location: location
     name: 'adminVnet'
     userId: 13
+    proctorId: proctorId
   }
 }
 

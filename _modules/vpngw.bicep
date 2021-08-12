@@ -64,7 +64,7 @@ resource publicIp 'Microsoft.Network/publicIPAddresses@2020-08-01' = {
   properties: {
    publicIPAllocationMethod: 'Dynamic'
    dnsSettings: {
-     domainNameLabel: usersIpRanges[userIdIndex].vpnGatewayDnsPrefix
+     domainNameLabel: '${usersIpRanges[userIdIndex].vpnGatewayDnsPrefix}'
    }
   }
 }
