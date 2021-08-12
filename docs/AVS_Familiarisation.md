@@ -1,0 +1,194 @@
+Challenge 1 
+"AVS Familiarisation"
+---
+
+# Introduction 
+
+In this challenge, you will perform the following tasks:
+
+1.	Understand the AVS Pre-requisites
+2.	Understand AVS Identity & Access Management
+3.	Understand AVS Network connectivity requirements
+4.	Understand common operation tasks for AVS
+5.	Deploy Service Mesh
+6.	Extend Network 
+7.	Perform Migration of a VM on an extended network
+8.	Perform Migration of a VM on an un-extended network
+
+Please carefully follow the instructions provided by your facilitator. 
+
+Work with the instructor to ensure your AVS environment has the required permissions to access the Private Cloud
+
+It is recommended to go through the AVS Private Cloud assigned to your team to familiarize yourself to the topics listed below
+
+## Pre-Requisites
+
+Azure VMware Solution delivers VMware-based private clouds in Azure and is available for EA and CSP customers. Customers need to request a quota and register the Microsoft.AVS resource provider prior to deploying:
+
+[Request host quota for Azure VMware Solution - Azure VMware Solution | Microsoft Docs][ducksearch]
+
+[ducksearch]: https://docs.microsoft.com/en-us/azure/azure-vmware/request-host-quota-azure-vmware-solution
+
+[Deploy and configure Azure VMware Solution - Azure VMware Solution | Microsoft Docs][ducksearch]
+
+[ducksearch]: https://docs.microsoft.com/en-us/azure/azure-vmware/deploy-azure-vmware-solution?tabs=azure-portal
+
+As the service isn’t available in all regions yet please check for local coverage in the required regions:
+
+[Azure Products by Region | Microsoft Azure][dukesearch]
+
+[dukesearch]: https://azure.microsoft.com/en-us/global-infrastructure/services/?regions=all&products=azure-vmware
+
+Each private cloud will have a minimum of one vSAN cluster that consists of three hosts. Additional hosts, clusters or even private clouds can be added to your Azure subscription depending on your requirements and available host quotas.
+
+There is also the option of a trial cluster, these are limited to three hosts and one month duration. After the trial period those hosts will be converted to regular AVS hosts.
+
+[Concepts - Private clouds and clusters - Azure VMware Solution | Microsoft Docs][dukesearch]
+
+[dukesearch]: https://docs.microsoft.com/en-us/azure/azure-vmware/concepts-private-clouds-clusters
+
+
+## Identity and access management
+
+Access management for cloud resources is a critical function for any organization that is using the cloud. Azure role-based access control (Azure RBAC) helps you manage who has access to Azure resources, what they can do with those resources, and what areas they have access to.
+
+Azure RBAC is an authorization system built on Azure Resource Manager that provides fine-grained access management of Azure resources. For that purpose Azure VMware Solution offers several operations to natively integrate into your RBAC strategy.
+
+Azure VMware Solution private clouds are provisioned with a vCenter Server and NSX-T Manager. You use vCenter to manage virtual machine (VM) workloads and NSX-T Manager to manage and extend the private cloud. Access and identity management use the CloudAdmin role for vCenter and restricted administrator rights for NSX-T Manager.
+
+Permissions are not inherited from Azure RBAC, for granular management you can create new roles inside vCenter based on the described privileges:
+
+[Concepts - Identity and access - Azure VMware Solution | Microsoft Docs][dukesearch]
+
+[dukesearch]: https://docs.microsoft.com/en-us/azure/azure-vmware/concepts-identity
+
+## Network connectivity
+Azure VMware Solution offers a private cloud environment accessible from on-premises and Azure-based resources. Services such as Azure ExpressRoute, VPN connections or Azure Virtual WAN deliver the connectivity.
+
+[Concepts - Network interconnectivity - Azure VMware Solution | Microsoft Docs][dukesearch]
+
+[dukesearch]: https://docs.microsoft.com/en-us/azure/azure-vmware/concepts-networking
+
+
+## Connect AVS to on-premises and Azure VNET
+To ensure connectivity between on-premises environments and the AVS private cloud most customers will utilize an ExpressRoute. To ensure connectivity between the ExpressRoute circuits of the existing on-premises connection and the AVS Private Cloud the Global Reach add-on is required. This add-on is provided for the circuit of the Azure VMware Solution as part of the offering but needs to be enabled for your existing on-premises ExpressRoute circuit and may incur additional costs.
+ 
+<img src=/home/ravi/azure-avs-microhack/Images/AVS/AVS_Image1.png>
+
+First you create an authorization key from your ExpressRoute circuits blade, this will be used to create the on-prem cloud connection in the Connectivity blade of the AVS Private Cloud.
+
+[Peer on-premises environments to Azure VMware Solution - Azure VMware Solution | Microsoft Docs][dukesearch]
+
+[dukesearch]: https://docs.microsoft.com/en-us/azure/azure-vmware/tutorial-expressroute-global-reach-private-cloud
+
+
+For PoC and smaller environments there is also the option of a VPN-based connectivity with Azure Virtual WAN available.
+
+[Configure a site-to-site VPN in vWAN for Azure VMware Solution - Azure VMware Solution | Microsoft Docs][dukesearch]
+
+[dukesearch]: https://docs.microsoft.com/en-us/azure/azure-vmware/configure-site-to-site-vpn-gateway
+
+## Connect AVS to Azure VNET
+Connectivity between Azure virtual networks and your private cloud will be enabled by virtual network gateways that connect to the ExpressRoute circuit of your private cloud. After creating the virtual network gateway you will create an authorization key from the AVS Private Cloud blade and connect both.
+ 
+[Tutorial - Configure networking for your VMware private cloud in Azure - Azure VMware Solution | Microsoft Docs][dukesearch]
+
+[dukesearch]: https://docs.microsoft.com/en-us/azure/azure-vmware/tutorial-configure-networking
+
+## Securely manage your AVS private cloud
+Most of the administrative tasks in an AVS private cloud will be orchestrated using the Azure VMware Solution vCenter and NSX-T Manager. As both systems are not publicly accessible we will need to create a jumpbox and optionally deploy Azure Bastion to enable secure access from non-private locations.
+The required URLs, credentials and certificate thumbprints  for accessing vCenter and NSX-T Manager can be obtained using the Identity blade of your AVS private cloud.
+
+[Tutorial: Create an Azure Bastion host: Windows VM: portal | Microsoft Docs][dukesearch]
+
+[dukesearch]: https://docs.microsoft.com/en-us/azure/bastion/tutorial-create-host-portal
+
+[Tutorial - Access your private cloud - Azure VMware Solution | Microsoft Docs][dukesearch]
+
+[dukesearch]: https://docs.microsoft.com/en-us/azure/azure-vmware/tutorial-access-private-cloud
+ 
+## Other common operational tasks
+### Scaling your AVS private cloud
+
+You can scale the clusters and hosts in a private cloud as required for your application workload. Please ensure that you have remaining quota available for the planned scaling and have a quick check on the scalability limits of your private cloud:
+•	Up to 12 clusters per private cloud
+•	Between 3 to 16 hosts per cluster
+•	Up to 96 hosts per private cloud
+
+[Concepts - Private clouds and clusters - Azure VMware Solution | Microsoft Docs][dukesearch]
+
+[dukesearch]: https://docs.microsoft.com/en-us/azure/azure-vmware/concepts-private-clouds-clusters#clusters
+
+[Tutorial - Expand or shrink clusters in a private cloud - Azure VMware Solution | Microsoft Docs][dukesearch]
+
+[dukesearch]: https://docs.microsoft.com/en-us/azure/azure-vmware/tutorial-scale-private-cloud
+
+## Deploy Add-Ons for AVS private cloud
+
+Azure VMware Solution offers extensibility through additional add-ons that can be deployed using the Azure portal. Depending on the add-on used additional licensing may be required as not all add-ons are included in the Azure VMware Solution pricing itself.
+
+Currently we offer add-ons for disaster recovery (VMware SRM) and workload mobility (VMware HCX) with more to come.
+
+If the deployed add-on isn’t fully managed via VMware vCenter plugins you can retrieve the management URLs through the Private Cloud add-ons blade. Depending on the add-on there may also be further options available in the add-ons blade like scaling the VMware Site Recovery Manager add-on or creating activation keys to connect HCX to your on-premises environment.
+
+[Deploy disaster recovery with VMware Site Recovery Manager - Azure VMware Solution | Microsoft Docs][dukesearch]
+
+[dukesearch]: https://docs.microsoft.com/en-us/azure/azure-vmware/disaster-recovery-using-vmware-site-recovery-manager
+
+[Deploy and configure VMware HCX - Azure VMware Solution | Microsoft Docs][dukesearch]
+
+[dukesearch]: https://docs.microsoft.com/en-us/azure/azure-vmware/tutorial-deploy-vmware-hcx
+
+
+## Workload networking
+
+Workload networking relates to several individual tasks that come up during the lifetime of an Azure VMware solution, e.g. configuring DHCP and DNS as well as creating new network segments. The following diagram provides a quick overview of the networking topology with the relevant components for this common tasks.
+ 
+<img src=/home/ravi/azure-avs-microhack/Images/AVS/AVS_Image3.png>
+
+Your Azure VMware solution should be configured to host a DHCP server as DHCP requests won’t traverse to your on-premises environment by default. We recommend utilizing NSX-T to host the DHCP server instead of having a virtual machine created for this. Therefore we will create a DHCP server instance defined by name and IP address.
+
+The individual DHCP ranges are configured within the network segment when you specify the subnets of the network segment. Please ensure that non-overlapping subnets and DHCP ranges must be used to ensure connectivity.
+
+DNS resolution is done via the DNS service in each Tier-1 gateway and can be customized to include custom DNS resolution for up to 5 internal zones while keeping regular DNS traffic inside AVS. For this create one or more additional DNS zones of the type “FQDN Zone” for those domains that are not externally resolvable and specify the appropriate DNS server IPs.  After creating the DNS zones ensure that those are also added to the DNS service.
+
+The default deployment already contains a network segment but when deploying workloads to the Private Cloud additional network segments may be required for separation of workloads. When creating new network segments you need to specify the gateway IP and optionally associated DHCP ranges if not only static IP-assignment is planned.
+
+Any creation/modification of network segments not bound to the default Tier-1 gateway needs to be done via NSX-T manager as the Azure Portal will only show the resources associated the default Tier-1 gateway created during initial deployment.
+
+[Configure DHCP for Azure VMware Solution - Azure VMware Solution | Microsoft Docs][dukesearch]
+
+[dukesearch]: https://docs.microsoft.com/en-us/azure/azure-vmware/configure-dhcp-azure-vmware-solution
+
+[Configure DNS forwarder for Azure VMware Solution - Azure VMware Solution | Microsoft Docs][dukesearch]
+
+[dukesearch]: https://docs.microsoft.com/en-us/azure/azure-vmware/configure-dns-azure-vmware-solution
+
+[Tutorial - Add a network segment in Azure VMware Solution - Azure VMware Solution | Microsoft Docs][dukesearch]
+
+[dukesearch]: https://docs.microsoft.com/en-us/azure/azure-vmware/tutorial-nsx-t-network-segment
+
+## Running commands for privileged tasks
+
+Certain tasks require more privileges that the default cloudadmin role permits, therefore we have included an additional blade in the Azure portal titled “Run command” to support this tasks.
+Currently two groups of commands are supported:
+
+###	JSDR.Configuration
+
+Commands needed to install the JetStream DR software
+
+[Disaster Recovery for Azure VMware Solution (AVS) using JetStream DR (jetstreamsoft.com)][dukesearch]
+
+[dukesearch]: https://www.jetstreamsoft.com/solutions/disaster-recovery-for-azure-vmware-solution/
+
+Microsoft.AVS.Management
+Commands to manage external identity sources for your private cloud and assign groups to the cloudadmin role
+
+## Raising a support case
+Support requests should be raised via the Azure Portal, e.g. via the “New Support Request” blade. As the service type please check if “Azure VMware Solution” has been selected as “Azure VMware Solution by CloudSimple” refers to the previous version of our VMware offering. The resource field should refer to the private cloud where you’re experiencing issues.
+
+[Support for Azure VMware Solution deployment or provisioning failure - Azure VMware Solution | Microsoft Docs][dukesearch]
+
+[dukesearch]: https://docs.microsoft.com/en-us/azure/azure-vmware/fix-deployment-failures 
+
+This concludes the HCX familiarisation for AVS!!
