@@ -23,7 +23,7 @@ Work with the instructor to ensure your VMware environment has the required perm
 
 1.	Log in to the On Prem SDDC by login to your Horizon Desktop by navigating https://globalcloudpractice.vmwarehorizon.com and login with your assigned username from the AVS "Credentials&IP" document identified for your team
 
-![AVS Lab Schema](home/ravi/azure-avs-microhack/Images/HCX/HCX_image1.png)
+<img src="/home/ravi/azure-avs-microhack/Images/HCX/HCX_image1.png">
 
 2.	Click Lab-Persistent Desktops
 
