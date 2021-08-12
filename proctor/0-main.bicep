@@ -3,7 +3,8 @@
 // with "--parameter .\param\main.param.json" if parameters are used
 
 // Location to deploy the below resources
-param location string = 'canadacentral'
+// param location string = 'canadacentral'
+param location string = 'westeurope'
 
 // If you want to deploy the Express Route (ER) gateway : true. Otherwise : false
 param deployGateway bool = true
@@ -15,7 +16,7 @@ param deployGateway bool = true
   3
   4
 ])
-param proctorId int = 1
+param proctorId int = 3
 
 // Change the scope to be able to create the resource group before resources
 // then we specify scope at resourceGroup level for all others resources

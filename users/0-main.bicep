@@ -28,7 +28,7 @@ param deployGateway bool = true
 param userId int
 
 // Default to 1 as it is the only supported ID for real microhack deployment
-param proctorId int = 1
+param proctorId int = 3
 
 // Change the scope to be able to create the resource group before resources
 // then we specify scope at resourceGroup level for all others resources

@@ -17,6 +17,8 @@ This lab is built of :
 - 3 AVS solution hosted in Azure regions aligned with the 3 vCenters instances,
 - A jumpbox per user deployed in Azure to control a sepcific AVS instance.
 
+![Lab schema](/Images/schema/avs-microhack-lab-schema.png)
+
 Each pair of AVS + on-premises cluster is assigned a unique IP range for the jumpbox. [IP ranges info](docs/Appendix.md)
 
 ## Prerequisites
