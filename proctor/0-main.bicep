@@ -4,7 +4,7 @@
 
 // Location to deploy the below resources
 // param location string = 'canadacentral'
-param location string = 'westeurope'
+param location string = 'canadacentral'
 
 // If you want to deploy the Express Route (ER) gateway : true. Otherwise : false
 param deployGateway bool = true
