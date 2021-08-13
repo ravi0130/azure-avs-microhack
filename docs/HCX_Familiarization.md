@@ -35,7 +35,7 @@ Work with the instructor to ensure your VMware environment has the required perm
 
 4.	Confirm that the vCenter server has hcx-manager deployed and powered on.
 
-  <img src="/home/ravi/azure-avs-microhack/Images/HCX/HCX_image4.png">
+  ![](/Images/HCX/HCX_image4.png)
 
 5.	Log on to the AVS private Cloud for your team in Azure Portal from where you will need to get a activation key for the HCX manager On-Prem
 
