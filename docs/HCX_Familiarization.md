@@ -35,7 +35,7 @@ Work with the instructor to ensure your VMware environment has the required perm
 
 4.	Confirm that the vCenter server has hcx-manager deployed and powered on.
 
-  <img src="/home/ravi/azure-avs-microhack/Images/HCX/HCX_image4.png">
+  ![](/Images/HCX/HCX_image4.png)
 
 5.	Log on to the AVS private Cloud for your team in Azure Portal from where you will need to get a activation key for the HCX manager On-Prem
 
@@ -277,13 +277,11 @@ In this step you will extend any the on-premises environment to Azure VMware Sol
 
 1.	Under Services, select Network Extension > Create a Network Extension.
 
-<img src="/home/ravi/azure-avs-microhack/Images/HCX/HCX_image45.png">
-
 2.	Select each of the networks you want to extend to Azure VMware Solution, and then select Next
 
-<img src="/home/ravi/azure-avs-microhack/Images/HCX/HCX_image46.png">
-
 3.	Enter the on-premises gateway IP for each of the networks you're extending, and then select Submit.
+
+<img src="/home/ravi/azure-avs-microhack/Images/HCX/HCX_image45.png">
 
 The IP address to be used and extended is defined in the IP address / Login document
 
@@ -298,6 +296,8 @@ If the HCX interconnect tunnel status is UP and green, you can migrate and prote
 1.	To migrate a virtual machine from and On Prem Environment to AVS, sign in to your on-premises vCenter, and under Home, select HCX.
 
 2.	Under Services, select Migration, and then select the Migrate
+
+<img src="/home/ravi/azure-avs-microhack/Images/HCX/HCX_image46.png">
 
 3.	One the Workload Mobility window is opened, ensure your site pairing is available from On Prem to AVS. 
 

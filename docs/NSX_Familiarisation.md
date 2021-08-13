@@ -101,7 +101,7 @@ mhack-tinycore-5
 
 <img src="/home/ravi/azure-avs-microhack/Images/NSX/NSX_image10.png">
  
-4.	Add the IP of MicrohackTinycore4 VM IP to this group and the press apply
+4.	Add the IP of mhack-tinycore-4  VM IP to this group and the press apply
 
 <img src="/home/ravi/azure-avs-microhack/Images/NSX/NSX_image11.png">
  
@@ -113,7 +113,7 @@ mhack-tinycore-5
 
 <img src="/home/ravi/azure-avs-microhack/Images/NSX/NSX_image13.png">
  
-7.	Click the IP addresses and then provide the IP address of the AVS Microhack Tinycore5 VM and then press apply
+7.	Click the IP addresses and then provide the IP address of the AVS mhack-tinycore-5 VM and then press apply
 
 <img src="/home/ravi/azure-avs-microhack/Images/NSX/NSX_image14.png">
  
