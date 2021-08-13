@@ -23,15 +23,15 @@ Here you will be using NSX-T to host your DHCP server and you will create a DHCP
 ### Create a DHCP server
 1.	In the Azure VMware Solution portal, go to Workload Networking > DHCP and then select Add.
 
-<img src="/home/ravi/azure-avs-microhack/Images/NSX/NSX_image1.png">
+![](/Images/NSX/NSX_image1.png)
 
 1.	Select DHCP for the Server Type, provide the server name and IP address CIDR, and then select OK.
  
-<img src="/home/ravi/azure-avs-microhack/Images/NSX/NSX_image2.png">
+![](/Images/NSX/NSX_image2.png)
  
 2.	Once done, the DHCP server will be listed in the DHCP tab 
  
-<img src="/home/ravi/azure-avs-microhack/Images/NSX/NSX_image3.png">
+![](/Images/NSX/NSX_image3.png)
 
 ### Note
 This DHCP server automatically gets connected to the default Tier 1 Gateway
@@ -41,7 +41,7 @@ This DHCP server automatically gets connected to the default Tier 1 Gateway
 ## Add a Network Segment
 1.	In NSX-T Manager, select Networking > Segments, and then select Add Segment.
 
-<img src="/home/ravi/azure-avs-microhack/Images/NSX/NSX_image4.png">
+![](/Images/NSX/NSX_image4.png)
  
 2.	Enter a name for the segment.
 
@@ -49,7 +49,7 @@ This DHCP server automatically gets connected to the default Tier 1 Gateway
 
 4.	Select the pre-configured overlay Transport Zone (TNTxx-OVERLAY-TZ) and then select Set Subnets in gateway/prefix length format.
 
-<img src="/home/ravi/azure-avs-microhack/Images/NSX/NSX_image5.png">
+![](/Images/NSX/NSX_image5.png)
 
 5.	Select Apply and then Save.
 
@@ -67,21 +67,21 @@ This capability uses the DNS Forwarder Service in NSX-T. A DNS service and defau
 ## Configure DNS forwarder
 1.	In your Azure VMware Solution private cloud, under Workload Networking, select DNS > DNS zones. Then select Add.
 
-<img src="/home/ravi/azure-avs-microhack/Images/NSX/NSX_image6.png">
+![](/Images/NSX/NSX_image6.png)
 
 2.	Select default zone
 
-<img src="/home/ravi/azure-avs-microhack/Images/NSX/NSX_image7.png">
+![](/Images/NSX/NSX_image7.png)
  
 3.	Provide a name and up to three DNS server IP addresses in the format of 1.1.1.1 and 8.8.8.8. Then select Save.
 
-<img src="/home/ravi/azure-avs-microhack/Images/NSX/NSX_image8.png">
+![](/Images/NSX/NSX_image8.png)
 
 It takes several minutes to complete, and you can follow the progress from Notifications. You’ll see a message in the Notifications when the DNS zone has been created.
 
 4.	Select the DNS service tab and then select Add DNS Service and provide the details of the name, select Tier 1 Gateway, DNS Server IP and Default DNS Done and press Save.
 
-<img src="/home/ravi/azure-avs-microhack/Images/NSX/NSX_image9.png">
+![](/Images/NSX/NSX_image9.png)
  
 It takes several minutes to complete and once finished, you'll see the Completed message from Notifications. At this point, management components in your private cloud should be able to resolve DNS entries from the FQDN zone provided to the NSX-T DNS Service.
 
@@ -99,50 +99,49 @@ mhack-tinycore-5
  
 3.	Add a group name as Application1 and then press Set Members
 
-<img src="/home/ravi/azure-avs-microhack/Images/NSX/NSX_image10.png">
+![](/Images/NSX/NSX_image10.png)
  
 4.	Add the IP of mhack-tinycore-4  VM IP to this group and the press apply
 
-<img src="/home/ravi/azure-avs-microhack/Images/NSX/NSX_image11.png">
+![](/Images/NSX/NSX_image11.png)
  
 5.	Then press save button
  
-<img src="/home/ravi/azure-avs-microhack/Images/NSX/NSX_image12.png">
+![](/Images/NSX/NSX_image12.png)
 
 6.	Now create a second Application group and click set members
 
-<img src="/home/ravi/azure-avs-microhack/Images/NSX/NSX_image13.png">
+![](/Images/NSX/NSX_image13.png)
  
 7.	Click the IP addresses and then provide the IP address of the AVS mhack-tinycore-5 VM and then press apply
 
-<img src="/home/ravi/azure-avs-microhack/Images/NSX/NSX_image14.png">
+![](/Images/NSX/NSX_image14.png)
  
 8.	Select Security > Distributed Firewall from the navigation panel.
 
 9.	Click Add Policy
 
-
-<img src="/home/ravi/azure-avs-microhack/Images/NSX/NSX_image15.png">
+![](/Images/NSX/NSX_image15.png)
  
 10.	Enter a Name for the new policy section.
 
-<img src="/home/ravi/azure-avs-microhack/Images/NSX/NSX_image16.png">
+![](/Images/NSX/NSX_image16.png)
  
 11.	Click Add Rule
  
-<img src="/home/ravi/azure-avs-microhack/Images/NSX/NSX_image17.png">
+![](/Images/NSX/NSX_image17.png)
 
 12.	Set source for the rule by selecting the first Application group and then press apply
 
-<img src="/home/ravi/azure-avs-microhack/Images/NSX/NSX_image18.png">
+![](/Images/NSX/NSX_image18.png)
  
 13.	Set destination for the rule by selecting the first Application group and then press apply
 
-<img src="/home/ravi/azure-avs-microhack/Images/NSX/NSX_image19.png">
+![](/Images/NSX/NSX_image19.png)
  
 14.	Keep the action as Allow and then press publish
 
-<img src="/home/ravi/azure-avs-microhack/Images/NSX/NSX_image20.png">
+![](/Images/NSX/NSX_image20.png)
 
 15.	One you firewall rule has been published, ping the mhack-tinycore-5 VM from mhack-tinycore-4 VM. We should notice that the ping is going through
 

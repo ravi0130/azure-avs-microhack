@@ -73,7 +73,7 @@ Azure VMware Solution offers a private cloud environment accessible from on-prem
 ## Connect AVS to on-premises and Azure VNET
 To ensure connectivity between on-premises environments and the AVS private cloud most customers will utilize an ExpressRoute. To ensure connectivity between the ExpressRoute circuits of the existing on-premises connection and the AVS Private Cloud the Global Reach add-on is required. This add-on is provided for the circuit of the Azure VMware Solution as part of the offering but needs to be enabled for your existing on-premises ExpressRoute circuit and may incur additional costs.
  
-<img src=/home/ravi/azure-avs-microhack/Images/AVS/AVS_Image1.png>
+![](/Images/AVS/AVS_Image1.png)
 
 First you create an authorization key from your ExpressRoute circuits blade, this will be used to create the on-prem cloud connection in the Connectivity blade of the AVS Private Cloud.
 
@@ -91,6 +91,8 @@ For PoC and smaller environments there is also the option of a VPN-based connect
 ## Connect AVS to Azure VNET
 Connectivity between Azure virtual networks and your private cloud will be enabled by virtual network gateways that connect to the ExpressRoute circuit of your private cloud. After creating the virtual network gateway you will create an authorization key from the AVS Private Cloud blade and connect both.
  
+![](/Images/AVS/AVS_Image2.png)
+
 [Tutorial - Configure networking for your VMware private cloud in Azure - Azure VMware Solution | Microsoft Docs][dukesearch]
 
 [dukesearch]: https://docs.microsoft.com/en-us/azure/azure-vmware/tutorial-configure-networking
@@ -144,7 +146,7 @@ If the deployed add-on isn’t fully managed via VMware vCenter plugins you can 
 
 Workload networking relates to several individual tasks that come up during the lifetime of an Azure VMware solution, e.g. configuring DHCP and DNS as well as creating new network segments. The following diagram provides a quick overview of the networking topology with the relevant components for this common tasks.
  
-<img src=/home/ravi/azure-avs-microhack/Images/AVS/AVS_Image3.png>
+![](/Images/AVS/AVS_Image3.png)
 
 Your Azure VMware solution should be configured to host a DHCP server as DHCP requests won’t traverse to your on-premises environment by default. We recommend utilizing NSX-T to host the DHCP server instead of having a virtual machine created for this. Therefore we will create a DHCP server instance defined by name and IP address.
 

@@ -23,8 +23,7 @@ Each pair of AVS + on-premises cluster is assigned a unique IP range for the jum
 
 ## AVS Design Concepts Video
 
-[![AVS Design Video](https://res.cloudinary.com/marcomontalbano/image/upload/v1628851734/video_to_markdown/images/youtube--yzdT2qwoy_U-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://youtu.be/yzdT2qwoy_U "AVS Design Video")
-
+[![Azure VMware Solution MicroHack design video](https://res.cloudinary.com/marcomontalbano/image/upload/v1628861760/video_to_markdown/images/youtube--BGw5Nv_Kpiw-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://youtu.be/BGw5Nv_Kpiw "Azure VMware Solution MicroHack design video")
 ## Prerequisites
 
 As part of the preparation tasks and to save time during the Microhack day, you are asked to perform the following prior to the Microhack delivery.

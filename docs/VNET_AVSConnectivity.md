@@ -25,7 +25,7 @@ In order to connect the  virtual network gateway, you'll add a connection betwee
 ## Request an ExpressRoute authorization key:
 1.	In the Azure portal, navigate to the Azure VMware Solution private cloud. Select Manage > Connectivity > ExpressRoute and then select + Request an authorization key.
 
-![Authorisation Key](/home/ravi/azure-avs-microhack/Images/VNET/VNET_image1.png)
+![](/Images/VNET/VNET_image1.png)
 
 2.	Provide a name for it and select Create.
 3.	It may take about 30 seconds to create the key. Once created, the new key appears in the list of authorization keys for the private cloud.
@@ -34,7 +34,7 @@ In order to connect the  virtual network gateway, you'll add a connection betwee
 
 5.	Navigate to the virtual network gateway you plan to use and select Connections > + Add.
 
-![ER Gateway](/home/ravi/azure-avs-microhack/Images/VNET/VNET_image2.png)
+![](/Images/VNET/VNET_image2.png)
 
 On the Add connection page, provide values for the fields, and select OK.
 
@@ -47,8 +47,8 @@ Virtual network gateway     | Enter a name for the connection
 Authorization key    |   Paste the authorization key you copied earlier   
 Peer circuit URI   |   Paste the ExpressRoute ID you copied earlier
  
-![Provide Values to the fields](/home/ravi/azure-avs-microhack/Images/VNET/VNET_image3.png)
+![](/Images/VNET/VNET_image3.png)
 
 The connection between your ExpressRoute circuit and your Virtual Network is created.
 
-![Connection Created](/home/ravi/azure-avs-microhack/Images/VNET/VNET_image4.png)
+![](/Images/VNET/VNET_image4.png)
