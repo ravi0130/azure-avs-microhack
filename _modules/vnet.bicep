@@ -9,11 +9,11 @@ var userIdIndex = userId - 1
 var usersIpRanges = [
 {
   user : 1
-  addressSpace : '10.228.16.0/26'
+  addressSpace : '10.228.16.0/25'
   subnets : [
-    '10.228.16.0/28'
-    '10.228.16.16/28'
+    '10.228.16.0/27'
     '10.228.16.32/27'
+    '10.228.16.64/27'
     'NA'
   ]
   asn : 65001
@@ -25,59 +25,59 @@ var usersIpRanges = [
 }
 {
   user : 2
-  addressSpace : '10.228.16.64/26'
+  addressSpace : '10.228.16.128/25'
   subnets : [
-    '10.228.16.64/28'
-    '10.228.16.80/28'
-    '10.228.16.96/27'
+    '10.228.16.128/27'
+    '10.228.16.160/27'
+    '10.228.16.192/27'
     'NA'
   ]
   asn : 65002
   remoteAsn: 65013
-  ownBgpIp : '10.228.16.78'
+  ownBgpIp : '10.228.16.142'
   remoteBgpIp: '10.228.17.14'
   vpnGatewayDnsPrefix : 'user-2-vpn-gw-pip'
   remoteVpnGatewayDnsPrefix : 'proctor-${proctorId}-vpn'
 }
 {
   user : 3
-  addressSpace : '10.228.16.128/26'
+  addressSpace : '10.228.17.128/25'
   subnets : [
-    '10.228.16.128/28'
-    '10.228.16.144/28'
-    '10.228.16.160/27'
+    '10.228.17.128/27'
+    '10.228.17.160/27'
+    '10.228.17.192/27'
     'NA'
   ]
   asn : 65003
   remoteAsn: 65013
-  ownBgpIp : '10.228.16.142'
+  ownBgpIp : '10.228.17.142'
   remoteBgpIp: '10.228.17.14'
   vpnGatewayDnsPrefix : 'user-3-vpn-gw-pip'
   remoteVpnGatewayDnsPrefix : 'proctor-${proctorId}-vpn'
 }
 {
   user : 4
-  addressSpace : '10.228.16.192/26'
+  addressSpace : '10.228.18.0/25'
   subnets : [
-    '10.228.16.192/27'
-    '10.228.16.224/28'
-    '10.228.16.256/27'
+    '10.228.18.0/27'
+    '10.228.18.32/27'
+    '10.228.18.64/27'
     'NA'
   ]
   asn : 65004
   remoteAsn: 65013
-  ownBgpIp : '10.228.16.206'
+  ownBgpIp : '10.228.18.14'
   remoteBgpIp: '10.228.17.14'
   vpnGatewayDnsPrefix : 'user-4-vpn-gw-pip'
   remoteVpnGatewayDnsPrefix : 'proctor-${proctorId}-vpn'
 }
 {
   user : 5
-  addressSpace : '10.228.20.0/26'
+  addressSpace : '10.228.20.0/25'
   subnets : [
-    '10.228.20.0/28'
-    '10.228.20.16/28'
+    '10.228.20.0/27'
     '10.228.20.32/27'
+    '10.228.20.64/27'
     'NA'
   ]
   asn : 65005
@@ -89,59 +89,59 @@ var usersIpRanges = [
 }
 {
   user : 6
-  addressSpace : '10.228.20.64/26'
+  addressSpace : '10.228.20.128/25'
   subnets : [
-    '10.228.20.64/28'
-    '10.228.20.80/28'
-    '10.228.20.96/27'
+    '10.228.20.128/27'
+    '10.228.20.160/27'
+    '10.228.20.192/27'
     'NA'
   ]
   asn : 65006
   remoteAsn: 65013
-  ownBgpIp : '10.228.20.78'
+  ownBgpIp : '10.228.20.142'
   remoteBgpIp: '10.228.17.14'
   vpnGatewayDnsPrefix : 'user-6-vpn-gw-pip'
   remoteVpnGatewayDnsPrefix : 'proctor-${proctorId}-vpn'
 }
 {
   user : 7
-  addressSpace : '10.228.20.128/26'
+  addressSpace : '10.228.21.0/25'
   subnets : [
-    '10.228.20.128/28'
-    '10.228.20.144/28'
-    '10.228.20.160/27'
+    '10.228.21.0/27'
+    '10.228.21.32/27'
+    '10.228.21.64/27'
     'NA'
   ]
   asn : 65007
   remoteAsn: 65013
-  ownBgpIp : '10.228.20.142'
+  ownBgpIp : '10.228.21.14'
   remoteBgpIp: '10.228.17.14'
   vpnGatewayDnsPrefix : 'user-7-vpn-gw-pip'
   remoteVpnGatewayDnsPrefix : 'proctor-${proctorId}-vpn'
 }
 {
   user : 8
-  addressSpace : '10.228.20.192/26'
+  addressSpace : '10.228.21.128/25'
   subnets : [
-    '10.228.20.192/28'
-    '10.228.20.208/28'
-    '10.228.20.224/27'
+    '10.228.21.128/27'
+    '10.228.21.160/27'
+    '10.228.21.192/27'
     'NA'
   ]
   asn : 65008
   remoteAsn: 65013
-  ownBgpIp : '10.228.20.206'
+  ownBgpIp : '10.228.21.142'
   remoteBgpIp: '10.228.17.14'
   vpnGatewayDnsPrefix : 'user-8-vpn-gw-pip'
   remoteVpnGatewayDnsPrefix : 'proctor-${proctorId}-vpn'
 }
 {
   user : 9
-  addressSpace : '10.228.24.0/26'
+  addressSpace : '10.228.24.0/25'
   subnets : [
-    '10.228.24.0/28'
-    '10.228.24.16/28'
+    '10.228.24.0/27'
     '10.228.24.32/27'
+    '10.228.24.64/27'
     'NA'
   ]
   asn : 65009
@@ -153,55 +153,55 @@ var usersIpRanges = [
 }
 {
   user : 10
-  addressSpace : '10.228.24.64/26'
+  addressSpace : '10.228.24.128/25'
   subnets : [
-    '10.228.24.64/28'
-    '10.228.24.80/28'
-    '10.228.24.96/27'
+    '10.228.24.128/27'
+    '10.228.24.160/27'
+    '10.228.24.192/27'
     'NA'
   ]
   asn : 65010
   remoteAsn: 65013
-  ownBgpIp : '10.228.24.78'
+  ownBgpIp : '10.228.24.142'
   remoteBgpIp: '10.228.17.14'
   vpnGatewayDnsPrefix : 'user-10-vpn-gw-pip'
   remoteVpnGatewayDnsPrefix : 'proctor-${proctorId}-vpn'
 }
 {
   user : 11
-  addressSpace : '10.228.24.128/26'
+  addressSpace : '10.228.25.0/25'
   subnets : [
-    '10.228.24.128/28'
-    '10.228.24.144/28'
-    '10.228.24.160/27'
+    '10.228.25.0/27'
+    '10.228.25.32/27'
+    '10.228.25.64/27'
     'NA'
   ]
   asn : 65011
   remoteAsn: 65013
-  ownBgpIp : '10.228.24.142'
+  ownBgpIp : '10.228.25.14'
   remoteBgpIp: '10.228.17.14'
   vpnGatewayDnsPrefix : 'user-11-vpn-gw-pip'
   remoteVpnGatewayDnsPrefix : 'proctor-${proctorId}-vpn'
 }
 {
   user : 12
-  addressSpace : '10.228.24.192/26'
+  addressSpace : '10.228.25.128/25'
   subnets : [
-    '10.228.24.192/28'
-    '10.228.24.208/28'
-    '10.228.24.224/27'
+    '10.228.25.128/27'
+    '10.228.25.160/27'
+    '10.228.25.192/27'
     'NA'
   ]
   asn : 65012
   remoteAsn: 65013
-  ownBgpIp : '10.228.24.206'
+  ownBgpIp : '10.228.25.142'
   remoteBgpIp: '10.228.17.14'
   vpnGatewayDnsPrefix : 'user-12-vpn-gw-pip'
   remoteVpnGatewayDnsPrefix : 'proctor-${proctorId}-vpn'
 }
 {
   user : 13
-  addressSpace : '10.228.17.0/24'
+  addressSpace : '10.228.17.0/25'
   subnets : [
     '10.228.17.0/27'
     '10.228.17.32/27'
