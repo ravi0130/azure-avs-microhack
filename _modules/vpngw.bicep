@@ -58,11 +58,11 @@ resource publicIp 'Microsoft.Network/publicIPAddresses@2020-08-01' = {
   name: '${name}-pip'
   location: location
   sku: {
-    name:'Basic'
+    name:'Standard'
     tier:'Regional'
   }
   properties: {
-   publicIPAllocationMethod: 'Dynamic'
+   publicIPAllocationMethod: 'Static'
    dnsSettings: {
      domainNameLabel: '${usersIpRanges[userIdIndex].vpnGatewayDnsPrefix}'
    }
@@ -73,11 +73,11 @@ resource publicIp2 'Microsoft.Network/publicIPAddresses@2020-08-01' = if(userId 
   name: '${name}-pip-2'
   location: location
   sku: {
-    name:'Basic'
+    name:'Standard'
     tier:'Regional'
   }
   properties: {
-   publicIPAllocationMethod: 'Dynamic'
+   publicIPAllocationMethod: 'Static'
    dnsSettings: {
      domainNameLabel: '${usersIpRanges[userIdIndex].vpnGatewayDnsPrefix}-2'
    }
