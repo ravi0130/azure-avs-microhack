@@ -21,6 +21,10 @@ This lab is built of :
 
 Each pair of AVS + on-premises cluster is assigned a unique IP range for the jumpbox. [IP ranges info](docs/Appendix.md)
 
+## AVS Design Concepts Video
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/yzdT2qwoy_U" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## Prerequisites
 
 As part of the preparation tasks and to save time during the Microhack day, you are asked to perform the following prior to the Microhack delivery.
