@@ -23,7 +23,7 @@ Each pair of AVS + on-premises cluster is assigned a unique IP range for the jum
 
 ## AVS Design Concepts Video
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/yzdT2qwoy_U" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![AVS Design Video](https://res.cloudinary.com/marcomontalbano/image/upload/v1628851734/video_to_markdown/images/youtube--yzdT2qwoy_U-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://youtu.be/yzdT2qwoy_U "AVS Design Video")
 
 ## Prerequisites
 
