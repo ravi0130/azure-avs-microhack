@@ -16,7 +16,7 @@ param deployGateway bool = true
   3
   4
 ])
-param proctorId int = 3
+param proctorId int = 1
 
 // Change the scope to be able to create the resource group before resources
 // then we specify scope at resourceGroup level for all others resources

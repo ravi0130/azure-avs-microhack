@@ -40,8 +40,8 @@ resource vpnGateway 'Microsoft.Network/virtualNetworkGateways@2020-11-01' = {
   properties: {
     gatewayType: 'Vpn'
     sku: {
-      name: userId == 13 ? 'HighPerformance' : 'Standard'
-      tier: userId == 13 ? 'HighPerformance' : 'Standard'
+        name: 'VpnGw1AZ'
+        tier: 'VpnGw1AZ'
     }
     ipConfigurations: userId == 13 ? union(activeStandby, activeActive) : activeStandby
     bgpSettings: {
