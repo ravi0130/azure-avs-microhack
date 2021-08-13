@@ -61,6 +61,11 @@ resource publicIp 'Microsoft.Network/publicIPAddresses@2020-08-01' = {
     name:'Standard'
     tier:'Regional'
   }
+  zones: [
+    '1'
+    '2'
+    '3'
+  ]
   properties: {
    publicIPAllocationMethod: 'Static'
    dnsSettings: {
@@ -76,6 +81,11 @@ resource publicIp2 'Microsoft.Network/publicIPAddresses@2020-08-01' = if(userId 
     name:'Standard'
     tier:'Regional'
   }
+  zones: [
+    '1'
+    '2'
+    '3'
+  ]
   properties: {
    publicIPAllocationMethod: 'Static'
    dnsSettings: {
