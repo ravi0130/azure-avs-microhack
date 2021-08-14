@@ -65,7 +65,7 @@ Steps:
   
   `cd ./azure-avs-microhack/users`
 
-- Now start the deployment (when prompted, confirm with **yes** to start the deployment):
+- Now start the deployment:
 
   `az deployment sub create -n rg-deploy-user -l canadacentral --template-file 0-main.bicep`
 
@@ -95,14 +95,21 @@ Credentials are identical for all VMs, as follows:
 
 You may log on to the jumpbox VM through Bastion to test access is successfull.
 
-You may check on the VPN gateway / connection tab, that the connection toHub is in status "connected".
+After a few minutes once the VPN Gateway has been deployed, you may check on the VPN gateway that :
 
-### Task3 : Review material
+- the connection toHub is in status "connected"
 
-Please watch the [Azure vMware Solution overview](https://www.site.placeholder) before the Microhack delivery day.
+ ![VPN Connection](/Images/schema/avs-microhack-vpn-connection-1.png)
+
+- routes are received from proctor gateway
+
+![BGP Peers](/Images/schema/avs-microhack-vpn-bgp-1.png)
+
+User deployment finishes here.
 
 ## Proctor deployment
 
+This is only deployed per the proctor once per MicroHack
 
 ### Task 1: deploy
 
@@ -128,7 +135,7 @@ Steps:
   
   `cd ./azure-avs-microhack/proctor`
 
-- Now start the deployment (when prompted, confirm with **yes** to start the deployment):
+- Now start the deployment:
 
   `az deployment sub create -n rg-deploy-proctor -l canadacentral --template-file 0-main.bicep`
 
@@ -156,6 +163,12 @@ Credentials are identical for all VMs, as follows:
 
 You may log on to the jumpbox VM through Bastion to test access is successfull.
 
-You may check BGP is up between Azure Route Server and VPN Gateway by checking the 'BGP Peers' tab on the VPN gateway screen.
+You may check BGP is up:
+
+- between your proctor VPN Gateway (ASN 65013) and all users VPN Gateway (Sample here with user 2, ANS 65002 and 4, ASN 65004)
+
+- betwenn your proctor VPN Gateway (ASN 65013) and the Route Server (ASN 65515)
+
+![BGP Peers](/Images/schema/avs-microhack-vpn-bgp-proctor-1.png)
 
 Route Server is in Public Preview and is accessible only via https://aka.ms/routeserver
