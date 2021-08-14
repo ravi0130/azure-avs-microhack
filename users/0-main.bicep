@@ -99,6 +99,7 @@ module jumpboxVm '../_modules/vm.bicep' = {
     location: location
     subnetId: adminVnet.outputs.subnets[1].id
     vmName: 'jumpbox'
+    osType: 'desktop'
   }
 }
 

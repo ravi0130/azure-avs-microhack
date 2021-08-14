@@ -6,6 +6,26 @@ param subnetId string
 param enableForwarding bool = false
 param createPublicIpNsg bool = false
 
+@allowed([
+  'desktop'
+  'server'
+])
+param osType string
+
+var osServer = {
+  publisher: 'MicrosoftWindowsServer'
+  offer: 'WindowsServer'
+  sku: '2019-Datacenter'
+  version: 'latest'
+}
+
+var osDesktop = {
+  publisher: 'MicrosoftWindowsDesktop'
+  offer: 'Windows-10'
+  sku: '20h2-ent'
+  version: 'latest'
+}
+
 module nic 'nic.bicep' = {
   name: '${vmName}-nic'
   params: {
@@ -31,12 +51,7 @@ resource vm 'Microsoft.Compute/virtualMachines@2020-12-01' = {
       vmSize: 'Standard_D2s_v3'
     }
     storageProfile: {
-      imageReference: {
-        publisher: 'MicrosoftWindowsServer'
-        offer: 'WindowsServer'
-        sku: '2019-Datacenter'
-        version: 'latest'
-      }
+      imageReference: osType == 'desktop' ? osDesktop : osServer
       osDisk: {
         createOption:'FromImage'
         caching:'ReadWrite'
