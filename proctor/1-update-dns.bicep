@@ -13,7 +13,7 @@ param location string = 'canadacentral'
   3
   4
 ])
-param proctorId int = 2
+param proctorId int = 1
 
 // Change the scope to be able to create the resource group before resources
 // then we specify scope at resourceGroup level for all others resources
