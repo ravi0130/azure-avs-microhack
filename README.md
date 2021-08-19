@@ -36,12 +36,12 @@ Those artifacts contain bicep files to deploy :
 
 - An Azure Virtual Network named "adminVnet";
 - A VPN Gateway inside the "GatewaySubnet" of this vnet,
-- A Windows 2019 Virtual Machine used as a jumpbox inside the "JumpboxSubnet"
+- A Windows 10 Virtual Machine used as a jumpbox inside the "JumpboxSubnet"
 - A bastion service to connect to the jumpbox
 
-This deployment will be connected to the proctor adminVnet containing the Express Route gateway that will give you access to both on-premises vMware environements and AVS.
+This deployment is connected via VPN to the proctor adminVnet that has the Express Route gateway conected to both on-premises vMware environements and AVS.
 
-To make the most of your time on this MircoHack, the green elements in the diagram above are deployed and configured for you through BICEP.
+The Windows 10 machine is using the DNS server hosted by the proctor to resolve all vMware resources.
 
 ### Task 1 : deploy
 
@@ -81,7 +81,8 @@ After the BICEP deployment concludes successfully, the following has been deploy
   - A VNET with a Gateway subnet, a Jumpbox subnet and an Azure Bastion subnet.
   - In each of those subnets :
     - A VPN gateway connected to proctor gateway,
-    - A Windows Server Jumbox,
+    - A Windows Server,
+    - A Windows 10 desktop,
     - A bastion host.
 
 - **The VM will have an auto-shutdown scheduled at night to save cost in your subscription. REMEMBER TO POWER IT ON THE D DAY !**
@@ -113,7 +114,11 @@ This is only deployed per the proctor once per MicroHack
 
 ### Task 1: deploy
 
-This must be deployed **only once** per MicroHack and can survive for following MicroHacks. It must be deployed in a **proctor subscription** :
+This must be deployed **only once** per MicroHack and can survive for following MicroHacks.
+It must be deployed in a **proctor subscription**.
+
+**By default, gateways are not deployed. Change the 0-main.bicep file "DeployGateway" variable to true to deploy them.**
+Once ER circuit are manually connected to the ER Gateway, you should revert the variable back to **false** to avoid ER circuit newly connected to be disconnected as they are not part of the deployment script.
 
 Steps:
 
@@ -139,7 +144,24 @@ Steps:
 
   `az deployment sub create -n rg-deploy-proctor -l canadacentral --template-file 0-main.bicep`
 
-### Task 2 : Explore and verify
+### Task 2 : Configure the Windows DNS Server on server VM
+
+- Using Bastion, login to the Windows Server VM called "server"
+- Add the DNS Role and Remote Management Tools
+- Configure the conditional forwarders for the 3 environments :
+  - microhack-**one**.zpod.io forwards to 10.96.96.2
+  - microhack-**two**.zpod.io forwards to 10.96.93.2
+  - microhack-**three**.zpod.io forwards to 10.96.53.2
+
+### Task 3 : update the proctor vnet DNS configuration
+
+  `az deployment sub create -n rg-deploy-user -l canadacentral --template-file 1-update-dns.bicep`
+
+Once done, you should issue an "ipconfig /renew" on each the jumpbox and the server VM to retreive the new DNS server configuration.
+
+You can confirm by running "ipconfig /all" to see the DNS Server transitionned from 168.63.129.16 to the new 10.228.x.x IP.
+
+### Task 4 : Explore and verify
 
 After the BICEP deployment concludes successfully, the following has been deployed into your subscription:
 

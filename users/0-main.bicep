@@ -94,6 +94,9 @@ module vpnToHubConnection '../_modules/vpnConnection.bicep' = {
 
 module jumpboxVm '../_modules/vm.bicep' = {
   name: 'jumpbox'
+  dependsOn: [
+    vpnToHubConnection
+  ]
   scope: rg
   params: {
     location: location

@@ -2,6 +2,11 @@ param location string
 param name string
 param userId int
 param proctorId int
+@allowed([
+  'default'
+  'proctor'
+])
+param dnsServer string = 'proctor'
 
 var userIdIndex = userId - 1
 
@@ -22,6 +27,7 @@ var usersIpRanges = [
   remoteBgpIp: '10.228.17.14'
   vpnGatewayDnsPrefix : 'user-1-vpn-gw-pip'
   remoteVpnGatewayDnsPrefix : 'proctor-${proctorId}-vpn-gw-pip'
+  dnsServer : '10.228.17.37'
 }
 {
   user : 2
@@ -38,6 +44,7 @@ var usersIpRanges = [
   remoteBgpIp: '10.228.17.14'
   vpnGatewayDnsPrefix : 'user-2-vpn-gw-pip'
   remoteVpnGatewayDnsPrefix : 'proctor-${proctorId}-vpn-gw-pip'
+  dnsServer : '10.228.17.37'
 }
 {
   user : 3
@@ -54,6 +61,7 @@ var usersIpRanges = [
   remoteBgpIp: '10.228.17.14'
   vpnGatewayDnsPrefix : 'user-3-vpn-gw-pip'
   remoteVpnGatewayDnsPrefix : 'proctor-${proctorId}-vpn-gw-pip'
+  dnsServer : '10.228.17.37'
 }
 {
   user : 4
@@ -70,6 +78,7 @@ var usersIpRanges = [
   remoteBgpIp: '10.228.17.14'
   vpnGatewayDnsPrefix : 'user-4-vpn-gw-pip'
   remoteVpnGatewayDnsPrefix : 'proctor-${proctorId}-vpn-gw-pip'
+  dnsServer : '10.228.17.37'
 }
 {
   user : 5
@@ -86,6 +95,7 @@ var usersIpRanges = [
   remoteBgpIp: '10.228.17.14'
   vpnGatewayDnsPrefix : 'user-5-vpn-gw-pip'
   remoteVpnGatewayDnsPrefix : 'proctor-${proctorId}-vpn-gw-pip'
+  dnsServer : '10.228.17.37'
 }
 {
   user : 6
@@ -102,6 +112,7 @@ var usersIpRanges = [
   remoteBgpIp: '10.228.17.14'
   vpnGatewayDnsPrefix : 'user-6-vpn-gw-pip'
   remoteVpnGatewayDnsPrefix : 'proctor-${proctorId}-vpn-gw-pip'
+  dnsServer : '10.228.17.37'
 }
 {
   user : 7
@@ -118,6 +129,7 @@ var usersIpRanges = [
   remoteBgpIp: '10.228.17.14'
   vpnGatewayDnsPrefix : 'user-7-vpn-gw-pip'
   remoteVpnGatewayDnsPrefix : 'proctor-${proctorId}-vpn-gw-pip'
+  dnsServer : '10.228.17.37'
 }
 {
   user : 8
@@ -134,6 +146,7 @@ var usersIpRanges = [
   remoteBgpIp: '10.228.17.14'
   vpnGatewayDnsPrefix : 'user-8-vpn-gw-pip'
   remoteVpnGatewayDnsPrefix : 'proctor-${proctorId}-vpn-gw-pip'
+  dnsServer : '10.228.17.37'
 }
 {
   user : 9
@@ -150,6 +163,7 @@ var usersIpRanges = [
   remoteBgpIp: '10.228.17.14'
   vpnGatewayDnsPrefix : 'user-9-vpn-gw-pip'
   remoteVpnGatewayDnsPrefix : 'proctor-${proctorId}-vpn-gw-pip'
+  dnsServer : '10.228.17.37'
 }
 {
   user : 10
@@ -166,6 +180,7 @@ var usersIpRanges = [
   remoteBgpIp: '10.228.17.14'
   vpnGatewayDnsPrefix : 'user-10-vpn-gw-pip'
   remoteVpnGatewayDnsPrefix : 'proctor-${proctorId}-vpn-gw-pip'
+  dnsServer : '10.228.17.37'
 }
 {
   user : 11
@@ -182,6 +197,7 @@ var usersIpRanges = [
   remoteBgpIp: '10.228.17.14'
   vpnGatewayDnsPrefix : 'user-11-vpn-gw-pip'
   remoteVpnGatewayDnsPrefix : 'proctor-${proctorId}-vpn-gw-pip'
+  dnsServer : '10.228.17.37'
 }
 {
   user : 12
@@ -198,6 +214,7 @@ var usersIpRanges = [
   remoteBgpIp: '10.228.17.14'
   vpnGatewayDnsPrefix : 'user-12-vpn-gw-pip'
   remoteVpnGatewayDnsPrefix : 'proctor-${proctorId}-vpn-gw-pip'
+  dnsServer : '10.228.17.37'
 }
 {
   user : 13
@@ -211,8 +228,15 @@ var usersIpRanges = [
   asn : 65013
   ownBgpIp : '10.228.17.14'
   vpnGatewayDnsPrefix : 'proctor-${proctorId}-vpn-gw-pip'
+  dnsServer : '10.228.17.37'
 }
 ]
+
+var dnsServerIp = {
+  dnsServers: [
+    usersIpRanges[userIdIndex].dnsServer
+  ]
+}
 
 var usersSubnets = [
   {
@@ -254,6 +278,7 @@ resource adminVnet 'Microsoft.Network/virtualNetworks@2020-11-01' = {
       ]
     }
     subnets: userId == 13 ? union(usersSubnets, routeServerSubnet) : usersSubnets
+    dhcpOptions: dnsServer == 'default' ? json('null') : dnsServerIp
   }
 }
 
