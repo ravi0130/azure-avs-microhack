@@ -131,6 +131,7 @@ module serverVm '../_modules/vm.bicep' = {
     subnetId: adminVnet.outputs.subnets[1].id
     vmName: 'server'
     osType: 'server'
+    autoShutdownStatus: 'Disabled'
   }
 }
 

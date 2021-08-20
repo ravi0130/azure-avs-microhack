@@ -5,6 +5,11 @@ param location string
 param subnetId string
 param enableForwarding bool = false
 param createPublicIpNsg bool = false
+@allowed([
+  'Enabled'
+  'Disabled'
+])
+param autoShutdownStatus string = 'Enabled'
 
 @allowed([
   'desktop'
@@ -79,7 +84,7 @@ resource autoShutdown 'Microsoft.DevTestLab/schedules@2018-09-15' = {
   name: 'shutdown-computevm-${vmName}'
   location: location
   properties: {
-    status:'Enabled'
+    status: autoShutdownStatus
     dailyRecurrence:{
       time: '2100'
     }
