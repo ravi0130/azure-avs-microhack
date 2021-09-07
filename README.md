@@ -36,12 +36,12 @@ Those artifacts contain bicep files to deploy :
 
 - An Azure Virtual Network named "adminVnet";
 - A VPN Gateway inside the "GatewaySubnet" of this vnet,
-- A Windows 2019 Virtual Machine used as a jumpbox inside the "JumpboxSubnet"
+- A Windows 10 Virtual Machine used as a jumpbox inside the "JumpboxSubnet"
 - A bastion service to connect to the jumpbox
 
-This deployment will be connected to the proctor adminVnet containing the Express Route gateway that will give you access to both on-premises vMware environements and AVS.
+This deployment is connected via VPN to the proctor adminVnet that has the Express Route gateway conected to both on-premises vMware environements and AVS.
 
-To make the most of your time on this MircoHack, the green elements in the diagram above are deployed and configured for you through BICEP.
+The Windows 10 machine is using the DNS server hosted by the proctor to resolve all vMware resources.
 
 ### Task 1 : deploy
 
@@ -81,7 +81,8 @@ After the BICEP deployment concludes successfully, the following has been deploy
   - A VNET with a Gateway subnet, a Jumpbox subnet and an Azure Bastion subnet.
   - In each of those subnets :
     - A VPN gateway connected to proctor gateway,
-    - A Windows Server Jumbox,
+    - A Windows Server,
+    - A Windows 10 desktop,
     - A bastion host.
 
 - **The VM will have an auto-shutdown scheduled at night to save cost in your subscription. REMEMBER TO POWER IT ON THE D DAY !**
@@ -106,69 +107,3 @@ After a few minutes once the VPN Gateway has been deployed, you may check on the
 ![BGP Peers](/Images/schema/avs-microhack-vpn-bgp-1.png)
 
 User deployment finishes here.
-
-## Proctor deployment
-
-This is only deployed per the proctor once per MicroHack
-
-### Task 1: deploy
-
-This must be deployed **only once** per MicroHack and can survive for following MicroHacks. It must be deployed in a **proctor subscription** :
-
-Steps:
-
-- Log in to Azure Cloud Shell at [https://shell.azure.com/](https://shell.azure.com/) and select Bash
-
-- Check if the current subscription is the one you want to deploy resources to :
-
-  `az account show`
-
-- If necessary select your target subscription:
-  
-  `az account set --subscription <Name or ID of subscription>`
-  
-- Clone the  GitHub repository:
-  
-  `git clone https://github.com/alexandreweiss/azure-avs-microhack`
-  
-  - Change directory:
-  
-  `cd ./azure-avs-microhack/proctor`
-
-- Now start the deployment:
-
-  `az deployment sub create -n rg-deploy-proctor -l canadacentral --template-file 0-main.bicep`
-
-### Task 2 : Explore and verify
-
-After the BICEP deployment concludes successfully, the following has been deployed into your subscription:
-
-- A resource group named **azure-avs-microhack-proctor-1-rg** containing :
-  - A VNET with a Gateway subnet, a Jumpbox subnet and an Azure Bastion subnet.
-  - In each of those subnets :
-    - A VPN gateway connected to users VPN gateways,
-    - An ER gateway,
-    - An Azure Route Server to route branch to branch traffic,
-    - A Windows Server Jumbox,
-    - A bastion host.
-
-- **The VM will have an auto-shutdown scheduled at night to save cost in your subscription. REMEMBER TO POWER IT ON THE D DAY !**
-
-Verify these resources are present in the portal.
-
-Credentials are identical for all VMs, as follows:
-
-- Username: admin-avs
-- Password: MicroHack/123
-
-You may log on to the jumpbox VM through Bastion to test access is successfull.
-
-You may check BGP is up:
-
-- between your proctor VPN Gateway (ASN 65013) and all users VPN Gateway (Sample here with user 2, ANS 65002 and 4, ASN 65004)
-
-- betwenn your proctor VPN Gateway (ASN 65013) and the Route Server (ASN 65515)
-
-![BGP Peers](/Images/schema/avs-microhack-vpn-bgp-proctor-1.png)
-
-Route Server is in Public Preview and is accessible only via https://aka.ms/routeserver

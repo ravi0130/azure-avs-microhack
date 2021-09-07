@@ -7,7 +7,7 @@
 param location string = 'canadacentral'
 
 // If you want to deploy the Express Route (ER) gateway : true. Otherwise : false
-param deployGateway bool = true
+param deployGateway bool = false
 
 // Proctor number. Always use 1 instead you have to deploy a test proctor instance as all proctor instances uses sames IPs
 @allowed([
@@ -37,6 +37,7 @@ module adminVnet '../_modules/vnet.bicep' = {
     name: 'adminVnet'
     userId: 13
     proctorId: proctorId
+    dnsServer: 'default'
   }
 }
 
@@ -117,6 +118,20 @@ module jumpboxVm '../_modules/vm.bicep' = {
     subnetId: adminVnet.outputs.subnets[1].id
     vmName: 'jumpbox'
     osType: 'desktop'
+  }
+}
+
+// Create the jumpbox VM
+
+module serverVm '../_modules/vm.bicep' = {
+  name: 'server'
+  scope: rg
+  params: {
+    location: location
+    subnetId: adminVnet.outputs.subnets[1].id
+    vmName: 'server'
+    osType: 'server'
+    autoShutdownStatus: 'Disabled'
   }
 }
 
