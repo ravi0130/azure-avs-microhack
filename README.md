@@ -1,3 +1,5 @@
+![AVS MicroHack](/Images/schema/AVSMicroHackPic.png)
+
 # Handling Azure vMware Solution (AVS) network connectivity and migration scenario from on-premises to Azure
 
 ## [Scenario](#scenario)
