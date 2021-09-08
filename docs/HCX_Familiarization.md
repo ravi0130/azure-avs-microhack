@@ -295,7 +295,7 @@ If the HCX interconnect tunnel status is UP and green, you can migrate and prote
 
 3.	One the Workload Mobility window is opened, ensure your site pairing is available from On Prem to AVS. 
 
-4.	Select mhack-tinycore1 as a VM that will be migrated from On-Prem to AVS and press Add 
+4.	Select mhack-debian-1 as a VM that will be migrated from On-Prem to AVS and press Add 
 
 ![](/Images/HCX/HCX_image47.png)
 
@@ -307,6 +307,11 @@ If the HCX interconnect tunnel status is UP and green, you can migrate and prote
 
 
 ![](/Images/HCX/HCX_image49.png)
+
+### Tip
+
+Initiate a ping from the console of the second debian VM to the debian VM being migrated such that the IP retention and the latency change can be monitored while the first debain VM is being migrated to AVS
+
  
 7.	Once the VM is migrated into AVS, check the IP address of the VM. 
 
