@@ -1,10 +1,10 @@
-Challenge 1 
+Challenge 1.1
 "AVS Familiarisation"
 ---
 
 # Introduction 
 
-In this challenge, you will perform the following tasks:
+In this challenge, you will go through the document below to understand the following concepts:
 
 1.	Understand the AVS Pre-requisites
 2.	Understand AVS Identity & Access Management
@@ -14,6 +14,12 @@ In this challenge, you will perform the following tasks:
 6.	Extend Network 
 7.	Perform Migration of a VM on an extended network
 8.	Perform Migration of a VM on an un-extended network
+
+### Note : 
+
+As a part of this challenge you are also expected to log on to the AVS Private cloud assigned to your team and to familiarise yourself with the tabs within it. its important for you to look at tabs like Connectivity, Identity, Clusters, Add-Ons and Workload Networking. 
+
+Feel free to reach out to your facilitator in case you have any questions regarding the tabs within the AVS Private Cloud. 
 
 Please carefully follow the instructions provided by your facilitator. 
 
