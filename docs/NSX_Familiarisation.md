@@ -1,4 +1,4 @@
-Challenge 2
+Challenge 1.2
 "NSX Familiarisation"
 ---
 
@@ -56,6 +56,12 @@ This DHCP server automatically gets connected to the default Tier 1 Gateway
 ### Note
 The IP address needs to be on a non-overlapping RFC1918 address block, which ensures connection to the VMs on the new segment.
 
+6. Once the segment is created  refer to the “Credentials&IP” document to attach the respective virtual machine listed there to the new segment that has been created and verify that the virtual machine is getting an IP from the DHCP
+
+### Hint
+
+The segment needs to be attach to the virtual machine by following right click of VM > Edit Settings > Network Adaptor 1 
+
 ## Configure a DNS forwarder
 
 By default, Azure VMware Solution management components such as vCenter can only resolve name records available through Public DNS. However, certain hybrid use cases require Azure VMware Solution management components to resolve name records from privately hosted DNS to properly function, including customer-managed systems such as vCenter and Active Directory.
@@ -65,6 +71,11 @@ Private DNS for Azure VMware Solution management components lets you define cond
 This capability uses the DNS Forwarder Service in NSX-T. A DNS service and default DNS zone are provided as part of your private cloud. To enable Azure VMware Solution management components to resolve records from your private DNS systems, you must define an FQDN zone and apply it to the NSX-T DNS Service. The DNS Service conditionally forwards DNS queries for each zone based on the external DNS servers defined in that zone.
 
 ## Configure DNS forwarder
+
+### Note
+
+If the default DNS forwarder is already created this section can be omitted 
+
 1.	In your Azure VMware Solution private cloud, under Workload Networking, select DNS > DNS zones. Then select Add.
 
 ![](/Images/NSX/NSX_image6.png)
@@ -89,9 +100,9 @@ It takes several minutes to complete and once finished, you'll see the Completed
 
 Ensure the following predeployed VMs are already deployed within the AVS vCenter server 
 
-mhack-tinycore-4
+mhack-tinycore-DFW1
 &
-mhack-tinycore-5
+mhack-tinycore-DFW2
 
 1.	From your browser, log in with admin privileges to an NSX Manager at https://<nsx-manager-ip-address>.
 
@@ -101,7 +112,7 @@ mhack-tinycore-5
 
 ![](/Images/NSX/NSX_image10.png)
  
-4.	Add the IP of mhack-tinycore-4  VM IP to this group and the press apply
+4.	Add the IP of mhack-tinycore-DFW1  VM IP to this group and the press apply
 
 ![](/Images/NSX/NSX_image11.png)
  
@@ -113,7 +124,7 @@ mhack-tinycore-5
 
 ![](/Images/NSX/NSX_image13.png)
  
-7.	Click the IP addresses and then provide the IP address of the AVS mhack-tinycore-5 VM and then press apply
+7.	Click the IP addresses and then provide the IP address of the AVS mhack-tinycore-DFW2 VM and then press apply
 
 ![](/Images/NSX/NSX_image14.png)
  
@@ -143,11 +154,11 @@ mhack-tinycore-5
 
 ![](/Images/NSX/NSX_image20.png)
 
-15.	One you firewall rule has been published, ping the mhack-tinycore-5 VM from mhack-tinycore-4 VM. We should notice that the ping is going through
+15.	One you firewall rule has been published, ping the mhack-tinycore-DFW2 VM from mhack-tinycore-DFW1 VM. We should notice that the ping is going through
 
 16.	Now come back to the distributed firewall and set the action to reject
 
-17.	Now ping the mhack-tinycore-5 VM from mhack-tinycore-4 VM. We should notice that the ping is blocked
+17.	Now ping the mhack-tinycore-DFW2 VM from mhack-tinycore-DFW1 VM. We should notice that the ping is blocked
 
 This proves the distributed firewall rule between the 2 application groups
 
