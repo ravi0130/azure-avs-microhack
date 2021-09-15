@@ -23,6 +23,10 @@ This lab is built of :
 
 Each pair of AVS + on-premises cluster is assigned a unique IP range for the jumpbox. [IP ranges info](docs/Appendix.md)
 
+## AVS MicroHack Workflow for Candidates
+
+![](/Images/schema/AVSMicrohackWworkflow.png)
+
 ## AVS Design Concepts Video
 
 [![Azure VMware Solution MicroHack design video](https://res.cloudinary.com/marcomontalbano/image/upload/v1628861760/video_to_markdown/images/youtube--BGw5Nv_Kpiw-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://youtu.be/BGw5Nv_Kpiw "Azure VMware Solution MicroHack design video")
