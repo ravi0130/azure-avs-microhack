@@ -25,7 +25,7 @@ Each pair of AVS + on-premises cluster is assigned a unique IP range for the jum
 
 ## AVS MicroHack Workflow for Candidates
 
-![](/Images/schema/AVS-Microhack-Workflow.png)
+![](/Images/schema/AVS-Microhack_Workflow.png)
 
 ## AVS Design Concepts Video
 
@@ -86,10 +86,9 @@ After the BICEP deployment concludes successfully, the following has been deploy
 - A resource group named **azure-avs-microhack-user-XX-rg** containing :
   - A VNET with a Gateway subnet, a Jumpbox subnet and an Azure Bastion subnet.
   - In each of those subnets :
-    - A VPN gateway connected to proctor gateway,
-    - A Windows Server,
-    - A Windows 10 desktop,
-    - A bastion host.
+    - A VPN gateway connected to proctor gateway
+    - A Windows 10 desktop
+    - A bastion host
 
 - **The VM will have an auto-shutdown scheduled at night to save cost in your subscription. REMEMBER TO POWER IT ON THE D DAY !**
 
