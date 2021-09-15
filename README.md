@@ -25,7 +25,7 @@ Each pair of AVS + on-premises cluster is assigned a unique IP range for the jum
 
 ## AVS MicroHack Workflow for Candidates
 
-![](/Images/schema/AVSMicrohackWworkflow.png)
+![](/Images/schema/AVS-Microhack-Workflow.png)
 
 ## AVS Design Concepts Video
 
