@@ -64,7 +64,7 @@ resource vm 'Microsoft.Compute/virtualMachines@2020-12-01' = {
           storageAccountType: 'Premium_LRS'
         }
         name: '${vmName}-osDisk'
-        osType: 'Windows'
+        osType: osType == 'desktop' ? 'Windows' : 'Linux'
       }
     }
     networkProfile: {
