@@ -230,6 +230,23 @@ var usersIpRanges = [
   vpnGatewayDnsPrefix : 'proctor-${proctorId}-vpn-gw-pip'
   dnsServer : '10.228.17.37'
 }
+{
+  user : 14
+  addressSpace : '10.228.26.0/25'
+  subnets : [
+    '10.228.26.0/27'
+    '10.228.26.32/27'
+    '10.228.26.64/27'
+    'NA'
+  ]
+  asn : 65014
+  remoteAsn: 65013
+  ownBgpIp : '10.228.26.30'
+  remoteBgpIp: '10.228.17.14'
+  vpnGatewayDnsPrefix : 'user-14-vpn-gw-pip'
+  remoteVpnGatewayDnsPrefix : 'proctor-${proctorId}-vpn-gw-pip'
+  dnsServer : '10.228.17.37'
+}
 ]
 
 var dnsServerIp = {
