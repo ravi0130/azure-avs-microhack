@@ -66,7 +66,7 @@ module vpnGw '../_modules/vpngw.bicep' = if(deployGateway) {
   }
 }
 
-// LNG to Hub
+// LNG to Hub instance 0
 module lngToHub '../_modules/lng.bicep' = {
   scope: rg
   name: 'lngToHub'
@@ -75,10 +75,24 @@ module lngToHub '../_modules/lng.bicep' = {
     name: 'lngToHub'
     userId: userId
     usersIpRanges: adminVnet.outputs.usersIpRanges
+    tunnelId: 1
   }
 }
 
-// connection
+// LNG to Hub instance 1
+module lngToHub2 '../_modules/lng.bicep' = {
+  scope: rg
+  name: 'lngToHub2'
+  params: {
+    location: location
+    name: 'lngToHub2'
+    userId: userId
+    usersIpRanges: adminVnet.outputs.usersIpRanges
+    tunnelId: 2
+  }
+}
+
+// connection to instance 0
 module vpnToHubConnection '../_modules/vpnConnection.bicep' = {
   scope: rg
   name: 'connectionToHub'
@@ -90,6 +104,20 @@ module vpnToHubConnection '../_modules/vpnConnection.bicep' = {
     vpnPreSharedKey: 'MicrosoftMicroHack@1234$'
   } 
 }
+
+// connection to instance 1
+module vpnToHubConnection2 '../_modules/vpnConnection.bicep' = {
+  scope: rg
+  name: 'connectionToHub2'
+  params: {
+    location: location
+    name: 'connectionToHub2'
+    remoteLngId: lngToHub2.outputs.lngId
+    vpnGwId: vpnGw.outputs.vpnGwId
+    vpnPreSharedKey: 'MicrosoftMicroHack@1234$'
+  } 
+}
+
 
 // Create the jumpbox VM
 
