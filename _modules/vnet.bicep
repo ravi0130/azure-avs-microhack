@@ -269,7 +269,7 @@ var usersIpRanges = [
   remoteAsn: 65013
   ownBgpIp : '10.228.26.30'
   remoteBgpIp: '10.228.17.14'
-  remoteBgpIp2: '10.228.17.14'
+  remoteBgpIp2: '10.228.17.15'
   vpnGatewayDnsPrefix : 'user-14-vpn-gw-pip'
   remoteVpnGatewayDnsPrefix : 'proctor-${proctorId}-vpn-gw-pip'
   remoteVpnGatewayDnsPrefix2 : 'proctor-${proctorId}-vpn-gw-pip-2'
