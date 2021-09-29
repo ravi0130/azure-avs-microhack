@@ -71,6 +71,9 @@ module lngToUsers '../_modules/lng4proctor.bicep' = [ for user in range(1,12): {
 
 // connection to users
 module vpnToUsersConnection '../_modules/vpnConnection.bicep' = [ for user in range(1,12): {
+  dependsOn: [
+    lngToUsers
+  ]
   scope: rg
   name: 'connectionToUser-${user}'
   params: {
@@ -94,7 +97,7 @@ module erGw '../_modules/ergw.bicep' = if(deployGateway) {
 }
 
 // Create the route server
-module routeServer '../_modules/routeserver.bicep' = {
+module routeServer '../_modules/routeserver.bicep' = if(deployGateway) {
   scope: rg
   dependsOn: [
     vpnGw
@@ -121,7 +124,19 @@ module jumpboxVm '../_modules/vm.bicep' = {
   }
 }
 
-// Create the jumpbox VM
+// Create extra jumpbox VM
+module extraJumpboxVm '../_modules/vm.bicep' = [for index in range(1, 3):{
+  name: 'jumpbox${index}'
+  scope: rg
+  params: {
+    location: location
+    subnetId: adminVnet.outputs.subnets[1].id
+    vmName: 'jumpbox${index}'
+    osType: 'desktop'
+  }
+}]
+
+// Create the server for DNS
 
 module serverVm '../_modules/vm.bicep' = {
   name: 'server'
