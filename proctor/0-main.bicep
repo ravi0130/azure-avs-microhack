@@ -7,7 +7,10 @@
 param location string = 'canadacentral'
 
 // If you want to deploy the Express Route (ER) gateway : true. Otherwise : false
-param deployGateway bool = false
+param deployErGateway bool = false
+
+// If you want to deploy the VPN gateway : true. Otherwise : false
+param deployVpnGateway bool = true
 
 // Proctor number. Always use 1 instead you have to deploy a test proctor instance as all proctor instances uses sames IPs
 @allowed([
@@ -27,6 +30,25 @@ resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   location: location
 }
 
+// Create a storage account for diags
+module storageAccount '../_modules/storageaccount.bicep' = {
+  scope: rg
+  name: 'proctorsa'
+  params: {
+    location: location
+    name: 'proctorsa'
+  }
+}
+
+// Create log Analytics workspace for debug purpose
+module logA '../_modules/loganalytics.bicep' = {
+  scope: rg
+  name: 'proctor-loga'
+  params: {
+    location: location
+    name: 'proctor-loga'
+  }
+}
 
 // Create base virtual network to host the Jumpbox and the Express Route gateway
 module adminVnet '../_modules/vnet.bicep' = {
@@ -41,8 +63,30 @@ module adminVnet '../_modules/vnet.bicep' = {
   }
 }
 
+// routeTable to enforce vnet
+module rtGws '../_modules/routetable.bicep' = {
+  scope: rg
+  name: 'forGws'
+  params: {
+    location: location
+    name: 'forGws'
+    routes: [
+      {
+        name: 'toGws'
+        addressPrefix: adminVnet.outputs.usersIpRanges[12].subnets[0]
+        nextHopType: 'VnetLocal'
+      }
+      {
+        name: 'toRs'
+        addressPrefix: adminVnet.outputs.usersIpRanges[12].subnets[3]
+        nextHopType: 'VnetLocal'
+      }
+    ]
+  }
+}
+
 // Create the VPN gateway in the base virtual network
-module vpnGw '../_modules/vpngw.bicep' = if(deployGateway) {
+module vpnGw '../_modules/vpngw.bicep' = if(deployVpnGateway) {
   name: 'vpn-gw'
   dependsOn: [
     erGw
@@ -54,6 +98,8 @@ module vpnGw '../_modules/vpngw.bicep' = if(deployGateway) {
     name: 'vpn-gw'
     userId: 13
     usersIpRanges: adminVnet.outputs.usersIpRanges
+    diagsStorageAccountId: storageAccount.outputs.id
+    logAnalyticsWsId: logA.outputs.logAnalyticsWsId
   }
 }
 
@@ -86,7 +132,7 @@ module vpnToUsersConnection '../_modules/vpnConnection.bicep' = [ for user in ra
 }]
 
 // Create the Express Route gateway in the base virtual network
-module erGw '../_modules/ergw.bicep' = if(deployGateway) {
+module erGw '../_modules/ergw.bicep' = if(deployErGateway) {
   name: 'er-gw'
   scope: rg
   params: {
@@ -97,7 +143,7 @@ module erGw '../_modules/ergw.bicep' = if(deployGateway) {
 }
 
 // Create the route server
-module routeServer '../_modules/routeserver.bicep' = if(deployGateway) {
+module routeServer '../_modules/routeserver.bicep' = if(deployErGateway) {
   scope: rg
   dependsOn: [
     vpnGw

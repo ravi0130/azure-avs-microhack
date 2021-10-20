@@ -3,6 +3,8 @@ param gwSubnetId string
 param name string
 param usersIpRanges array
 param userId int
+param diagsStorageAccountId string = 'NA'
+param logAnalyticsWsId string = 'NA'
 
 var userIdIndex = userId - 1
 
@@ -51,6 +53,49 @@ resource vpnGateway 'Microsoft.Network/virtualNetworkGateways@2020-11-01' = {
     vpnType: 'RouteBased'
     vpnGatewayGeneration: 'Generation1'
     activeActive: userId == 13 ? true : false
+  }
+}
+
+resource vpnDiag 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = if (userId == 13) {
+  name: 'diag'
+  scope: vpnGateway
+  properties: {
+    logs: [
+      {
+        enabled: true
+        retentionPolicy: {
+          days: 90
+          enabled: true 
+        }
+        category: 'RouteDiagnosticLog'
+      }
+      {
+        enabled: true
+        retentionPolicy: {
+          days: 90
+          enabled: true 
+        }
+        category: 'IKEDiagnosticLog'
+      }
+      {
+        enabled: true
+        retentionPolicy: {
+          days: 90
+          enabled: true 
+        }
+        category: 'TunnelDiagnosticLog'
+      }
+      {
+        enabled: true
+        retentionPolicy: {
+          days: 90
+          enabled: true 
+        }
+        category: 'GatewayDiagnosticLog'
+      }
+    ]
+    storageAccountId: diagsStorageAccountId
+    workspaceId: logAnalyticsWsId
   }
 }
 
