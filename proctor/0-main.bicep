@@ -1,19 +1,17 @@
-// Sample deployment command :
-// az deployment group create -n Deploy -g azure-avs-microhack-rg --template-file 1-main.bicep 
-// with "--parameter .\param\main.param.json" if parameters are used
-
-// Location to deploy the below resources
-// param location string = 'canadacentral'
 param location string = 'canadacentral'
 
 // If you want to deploy the Express Route (ER) gateway : true. Otherwise : false
 param deployErGateway bool = false
+// Connect circuits to ER GW
+param connectCircuits bool = false
 
 // If you want to deploy the VPN gateway : true. Otherwise : false
 param deployVpnGateway bool = true
 
+// Parameter to connects the AVS circuits
+param avsCircuitIds array
+
 // Proctor number. Always use 1 instead you have to deploy a test proctor instance as all proctor instances uses sames IPs
-// If not 1 : you have to update the vars.json file !!
 @allowed([
   1
   2
@@ -26,9 +24,6 @@ param proctorId int = 1
 // then we specify scope at resourceGroup level for all others resources
 targetScope = 'subscription'
 
-// Load main variable file
-var variables = json(loadTextContent('../vars/vars.json'))
-
 resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: 'azure-avs-microhack-proctor-${proctorId}-rg'
   location: location
@@ -37,22 +32,15 @@ resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
 // Create a storage account for diags
 module storageAccount '../_modules/storageaccount.bicep' = {
   scope: rg
-  name: 'proctorsa'
+  name: 'proctor${proctorId}sa'
   params: {
     location: location
-    name: 'proctorsa'
+    name: 'proctor${proctorId}sa'
   }
 }
 
-// Create log Analytics workspace for debug purpose
-module logA '../_modules/loganalytics.bicep' = {
-  scope: rg
-  name: 'proctor-loga'
-  params: {
-    location: location
-    name: 'proctor-loga'
-  }
-}
+// Load main variable file
+var variables = json(loadTextContent('../vars/vars.json'))
 
 // Create base virtual network to host the Jumpbox and the Express Route gateway
 module adminVnet '../_modules/vnet.bicep' = {
@@ -61,83 +49,89 @@ module adminVnet '../_modules/vnet.bicep' = {
   params: {
     location: location
     name: 'adminVnet'
-    userId: 13
-    dnsServer: 'default'
+    userId: 14
+    dnsServer: variables.proctorDnsServer
     usersIpRanges: variables.usersIpRanges
   }
 }
 
-// Create the VPN gateway in the base virtual network
-module vpnGw '../_modules/vpngw.bicep' = if(deployVpnGateway) {
-  name: 'vpn-gw'
-  dependsOn: [
-    erGw
-  ]
+// Define the vWan object
+module vWan '../_modules/vwan.bicep' = {
   scope: rg
+  name: 'avs-vwan'
   params: {
-    gwSubnetId: adminVnet.outputs.subnets[0].id
     location: location
-    name: 'vpn-gw'
-    userId: 13
-    usersIpRanges: variables.usersIpRanges
-    diagsStorageAccountId: storageAccount.outputs.id
-    logAnalyticsWsId: logA.outputs.logAnalyticsWsId
+    name: 'avs-vwan'
   }
 }
 
-// LNG to Hub
-module lngToUsers '../_modules/lng4proctor.bicep' = [ for user in range(1,12): {
+// Define a single hub for interco with students and AVS
+module vHub1 '../_modules/vhub.bicep' = {
   scope: rg
-  name: 'lngToUser-${user}'
+  name: 'h-${location}'
   params: {
+    addressPrefix: variables.vWanAddressSpace
     location: location
-    name: 'lngToUser-${user}'
-    userId: user
-    usersIpRanges: variables.usersIpRanges
+    name: 'h-${location}'
+    vwanId: vWan.outputs.vWanId
   }
-}]
+}
 
-// connection to users
-module vpnToUsersConnection '../_modules/vpnConnection.bicep' = [ for user in range(1,12): {
-  dependsOn: [
-    lngToUsers
-  ]
+// Add the ER Gateway
+module erGw '../_modules/vwanergw.bicep' = if(deployErGateway) {
   scope: rg
-  name: 'connectionToUser-${user}'
+  name: 'erGw-${location}'
   params: {
+    avsCircuitIds: avsCircuitIds
+    gwName: 'erGw-${location}'
     location: location
-    name: 'connectionToUser-${user}'
-    remoteLngId: lngToUsers[user -1].outputs.lngId
-    vpnGwId: vpnGw.outputs.vpnGwId
-    vpnPreSharedKey: 'MicrosoftMicroHack@1234$'
+    vHubId: vHub1.outputs.vHubId
+    vHubName: vHub1.outputs.vHubName
+    connectCircuits: connectCircuits
+  }
+}
+
+// Add the VPN Gateway and sites
+module hubVpnGw '../_modules/vwanvpngw.bicep' = if(deployVpnGateway) {
+  scope: rg
+  name: 'proctorVpnGw-${location}'
+  params: {
+    asn: 65515
+    gwName: 'proctorVpnGw-${location}'
+    location: location
+    vHubId: vHub1.outputs.vHubId
   } 
+}
+
+// Connect server vNet
+module adminVnetConnection '../_modules/vwanvnetconnection.bicep' = {
+  scope: rg
+  name: '${adminVnet.name}_connection'
+  params: {
+    connectionName: '${adminVnet.name}_connection'
+    vHubName: vHub1.outputs.vHubName
+    vHubId: vHub1.outputs.vHubId
+    vNetId: adminVnet.outputs.vnetId
+  }
+}
+
+// Add studient sites
+
+@batchSize(1)
+module vpnSites '../_modules/vwanvpnsite.bicep' = [ for user in variables.usersIpRanges: if(deployVpnGateway) {
+  scope: rg
+  name: 'user-${user.asn}'
+  params: {
+    asn: user.asn
+    userId: user.user
+    bgpIp: user.ownBgpIp
+    location: location
+    name: 'user-${user.asn}'
+    publicIp: '${user.vpnGatewayDnsPrefix}-${variables.sessionId}.${variables.dnsDomain}'
+    vWanId: vWan.outputs.vWanId
+    vpnGatewayName: hubVpnGw.name
+  }
 }]
-
-// Create the Express Route gateway in the base virtual network
-module erGw '../_modules/ergw.bicep' = if(deployErGateway) {
-  name: 'er-gw'
-  scope: rg
-  params: {
-    gwSubnetId: adminVnet.outputs.subnets[0].id
-    location: location
-    name: 'er-gw'
-  }
-}
-
-// Create the route server
-module routeServer '../_modules/routeserver.bicep' = if(deployErGateway) {
-  scope: rg
-  dependsOn: [
-    vpnGw
-  ]
-  name: 'routeServer'
-  params: {
-    location: location
-    name: 'routeServer'
-    subnetId: adminVnet.outputs.subnets[3].id
-  }
-  
-}
 
 // Create the jumpbox VM
 
