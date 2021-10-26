@@ -2,20 +2,9 @@ param location string
 param name string
 param userId int
 param usersIpRanges array
-
-@allowed([
-  'default'
-  'proctor'
-])
-param dnsServer string = 'proctor'
+param dnsServer string = '10.228.17.37'
 
 var userIdIndex = userId - 1
-
-var dnsServerIp = {
-  dnsServers: [
-    usersIpRanges[userIdIndex].dnsServer
-  ]
-}
 
 var usersSubnets = [
   {
@@ -38,15 +27,6 @@ var usersSubnets = [
   }
 ]
 
-var routeServerSubnet = [
-  {
-    name: 'RouteServerSubnet'
-    properties: {
-      addressPrefix: usersIpRanges[userIdIndex].subnets[3]
-    }
-  }
-]
-
 resource adminVnet 'Microsoft.Network/virtualNetworks@2020-11-01' = {
   name: name
   location: location
@@ -56,8 +36,12 @@ resource adminVnet 'Microsoft.Network/virtualNetworks@2020-11-01' = {
         usersIpRanges[userIdIndex].addressSpace
       ]
     }
-    subnets: userId == 14 ? union(usersSubnets, routeServerSubnet) : usersSubnets
-    dhcpOptions: dnsServer == 'default' ? json('null') : dnsServerIp
+    subnets: usersSubnets
+    dhcpOptions: {
+      dnsServers: [
+        dnsServer
+      ]
+    }
   }
 }
 

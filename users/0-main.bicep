@@ -28,9 +28,6 @@ param deployGateway bool = true
 ])
 param userId int
 
-// Default to 1 as it is the only supported ID for real microhack deployment
-param proctorId int = 1
-
 // Change the scope to be able to create the resource group before resources
 // then we specify scope at resourceGroup level for all others resources
 targetScope = 'subscription'
@@ -64,7 +61,7 @@ module vpnGw '../_modules/vpngw.bicep' = if(deployGateway) {
     location: location
     name: 'vpn-gw'
     userId: userId
-    usersIpRanges: variables.usersIpRanges
+    variables: variables
   }
 }
 
