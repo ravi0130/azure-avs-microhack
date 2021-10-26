@@ -62,3 +62,4 @@ resource adminVnet 'Microsoft.Network/virtualNetworks@2020-11-01' = {
 }
 
 output subnets array = adminVnet.properties.subnets
+output vnetId string = adminVnet.id

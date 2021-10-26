@@ -6,7 +6,7 @@ param deployErGateway bool = false
 param connectCircuits bool = false
 
 // If you want to deploy the VPN gateway : true. Otherwise : false
-param deployVpnGateway bool = true
+param deployVpnGateway bool = false
 
 // Parameter to connects the AVS circuits
 param avsCircuitIds array
@@ -86,7 +86,7 @@ module erGw '../_modules/vwanergw.bicep' = if(deployErGateway) {
     gwName: 'erGw-${location}'
     location: location
     vHubId: vHub1.outputs.vHubId
-    vHubName: vHub1.name
+    vHubName: vHub1.outputs.vHubName
     connectCircuits: connectCircuits
   }
 }
@@ -101,6 +101,18 @@ module hubVpnGw '../_modules/vwanvpngw.bicep' = if(deployVpnGateway) {
     location: location
     vHubId: vHub1.outputs.vHubId
   } 
+}
+
+// Connect server vNet
+module adminVnetConnection '../_modules/vwanvnetconnection.bicep' = {
+  scope: rg
+  name: '${adminVnet.name}_connection'
+  params: {
+    connectionName: '${adminVnet.name}_connection'
+    vHubName: vHub1.outputs.vHubName
+    vHubId: vHub1.outputs.vHubId
+    vNetId: adminVnet.outputs.vnetId
+  }
 }
 
 // Add studient sites

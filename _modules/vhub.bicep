@@ -15,4 +15,5 @@ resource vHub 'Microsoft.Network/virtualHubs@2021-03-01' = {
   }
 }
 
+output vHubName string = vHub.name
 output vHubId string = vHub.id
