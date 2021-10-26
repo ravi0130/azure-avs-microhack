@@ -45,18 +45,18 @@ resource vpnGateway 'Microsoft.Network/virtualNetworkGateways@2020-11-01' = {
         name: 'VpnGw1AZ'
         tier: 'VpnGw1AZ'
     }
-    ipConfigurations: userId == 13 ? union(activeStandby, activeActive) : activeStandby
+    ipConfigurations: userId == 14 ? union(activeStandby, activeActive) : activeStandby
     bgpSettings: {
       asn: usersIpRanges[userIdIndex].asn
     }
     enableBgp: true
     vpnType: 'RouteBased'
     vpnGatewayGeneration: 'Generation1'
-    activeActive: userId == 13 ? true : false
+    activeActive: userId == 14 ? true : false
   }
 }
 
-resource vpnDiag 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = if (userId == 13) {
+resource vpnDiag 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = if (userId == 14) {
   name: 'diag'
   scope: vpnGateway
   properties: {
@@ -119,7 +119,7 @@ resource publicIp 'Microsoft.Network/publicIPAddresses@2020-08-01' = {
   }
 }
 
-resource publicIp2 'Microsoft.Network/publicIPAddresses@2020-08-01' = if(userId == 13) {
+resource publicIp2 'Microsoft.Network/publicIPAddresses@2020-08-01' = if(userId == 14) {
   name: '${name}-pip-2'
   location: location
   sku: {

@@ -24,7 +24,7 @@ param deployGateway bool = true
   10
   11
   12
-  14
+  13
 ])
 param userId int
 
@@ -40,6 +40,8 @@ resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   location: location
 }
 
+// Load main variable file
+var variables = json(loadTextContent('../vars/vars.json'))
 
 // Create base virtual network to host the Jumpbox and the Express Route gateway
 module adminVnet '../_modules/vnet.bicep' = {
@@ -49,7 +51,7 @@ module adminVnet '../_modules/vnet.bicep' = {
     location: location
     name: 'adminVnet'
     userId: userId
-    proctorId: proctorId
+    usersIpRanges: variables.usersIpRanges
   }
 }
 
@@ -62,7 +64,7 @@ module vpnGw '../_modules/vpngw.bicep' = if(deployGateway) {
     location: location
     name: 'vpn-gw'
     userId: userId
-    usersIpRanges: adminVnet.outputs.usersIpRanges
+    usersIpRanges: variables.usersIpRanges
   }
 }
 
@@ -74,7 +76,7 @@ module lngToHub '../_modules/lng.bicep' = {
     location: location
     name: 'lngToHub'
     userId: userId
-    usersIpRanges: adminVnet.outputs.usersIpRanges
+    variables: variables
     tunnelId: 1
   }
 }
@@ -87,7 +89,7 @@ module lngToHub2 '../_modules/lng.bicep' = {
     location: location
     name: 'lngToHub2'
     userId: userId
-    usersIpRanges: adminVnet.outputs.usersIpRanges
+    variables: variables
     tunnelId: 2
   }
 }
