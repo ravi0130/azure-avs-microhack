@@ -1,7 +1,7 @@
 {
     "proctorDnsServer" : "10.228.17.37",
     "vWanAddressSpace" : "10.228.27.0/24",
-    "sessionId" : 21,
+    "sessionId" : 23,
     "dnsDomain" : "canadacentral.cloudapp.azure.com",
     "usersIpRanges" : [
         {
