@@ -9,7 +9,7 @@ param connectCircuits bool = false
 param deployVpnGateway bool = true
 
 // Parameter to connects the AVS circuits
-param avsCircuitIds array
+param avsCircuitIds array = []
 
 // Proctor number. Always use 1 instead you have to deploy a test proctor instance as all proctor instances uses sames IPs
 @allowed([
