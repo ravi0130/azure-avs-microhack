@@ -16,7 +16,7 @@ In this Microhack, you will :
 This lab is built of :
 
 - 3 vMware vSphere Clusters hosted on-premises along with 3 vCenters,
-- 3 AVS solution hosted in Azure regions aligned with the 3 vCenters instances,
+- 3 AVS solution hosted in Azure regions aligned with nested On Prem vCenters instances,
 - A jumpbox per user deployed in Azure to control a sepcific AVS instance.
 
 ![Lab schema](/Images/schema/Whiteboard.png)
