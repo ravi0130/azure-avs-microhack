@@ -25,7 +25,7 @@ Each pair of AVS + on-premises cluster is assigned a unique IP range for the jum
 
 ## AVS MicroHack Workflow for Candidates
 
-![](/Images/schema/AVS-Microhack_Workflow.png)
+![](/Images/schema/Whiteboard.png)
 
 ## AVS Design Concepts Video
 
@@ -49,66 +49,3 @@ This deployment is connected via VPN to the proctor adminVnet that has the Expre
 
 The Windows 10 machine is using the DNS server hosted by the proctor to resolve all vMware resources.
 
-### Task 1 : deploy
-
-Steps:
-
-- Log in to Azure Cloud Shell at [https://shell.azure.com/](https://shell.azure.com/) and select Bash
-
-- Check if the current subscription is the one you want to deploy resources to :
-
-  `az account show`
-
-- If necessary select your target subscription:
-  
-  `az account set --subscription <Name or ID of subscription>`
-  
-- Clone the  GitHub repository:
-  
-  `git clone https://github.com/alexandreweiss/azure-avs-microhack`
-  
-  - Change directory:
-  
-  `cd ./azure-avs-microhack/users`
-
-- Now start the deployment:
-
-  `az deployment sub create -n rg-deploy-user -l canadacentral --template-file 0-main.bicep`
-
-- You will be asked to enter the ID of the user you registered to in the excel file so you'll get assigned a unique IP range for your deployment.
-
-Deployment takes approximately 30 minutes.
-
-### Task 2 : Explore and verify
-
-After the BICEP deployment concludes successfully, the following has been deployed into your subscription:
-
-- A resource group named **azure-avs-microhack-user-XX-rg** containing :
-  - A VNET with a Gateway subnet, a Jumpbox subnet and an Azure Bastion subnet.
-  - In each of those subnets :
-    - A VPN gateway connected to proctor gateway
-    - A Windows 10 desktop
-    - A bastion host
-
-- **The VM will have an auto-shutdown scheduled at night to save cost in your subscription. REMEMBER TO POWER IT ON THE D DAY !**
-
-Verify these resources are present in the portal.
-
-Credentials are identical for all VMs, as follows:
-
-- Username: admin-avs
-- Password: MicroHack/123
-
-You may log on to the jumpbox VM through Bastion to test access is successfull.
-
-After a few minutes once the VPN Gateway has been deployed, you may check on the VPN gateway that :
-
-- the connection toHub is in status "connected"
-
- ![VPN Connection](/Images/schema/avs-microhack-vpn-connection-1.png)
-
-- routes are received from proctor gateway
-
-![BGP Peers](/Images/schema/avs-microhack-vpn-bgp-1.png)
-
-User deployment finishes here.
