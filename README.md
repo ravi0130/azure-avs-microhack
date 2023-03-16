@@ -2,13 +2,14 @@
 
 # Handling Azure VMware Solution (AVS) network connectivity and migration scenario from on-premises to Azure
 
-## [Scenario](#scenario)
+In this article
 
-## [Prerequisites](#prerequisites)
+[Scenario](#scenario)  
+[Prerequisites](#prerequisites)
 
 ## Scenario
 
-In this Microhack, you will :
+In this MicroHack, you will :
 
 - be given an overview of the AVS architecture,
 - configure HCX and use it to migrate workloads.
