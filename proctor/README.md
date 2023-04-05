@@ -47,9 +47,9 @@ Steps:
 
   `az deployment sub create -n rg-deploy-user -l canadacentral --template-file 1-update-dns.bicep`
 
-Once done, you should issue an "ipconfig /renew" on each the jumpbox and the server VM to retreive the new DNS server configuration.
+Once done, you should issue an "ipconfig /renew" on each the jumpbox and the server VM to retrieve the new DNS server configuration.
 
-You can confirm by running "ipconfig /all" to see the DNS Server transitionned from 168.63.129.16 to the new 10.228.x.x IP.
+You can confirm by running "ipconfig /all" to see the DNS Server transitioned from 168.63.129.16 to the new 10.228.x.x IP.
 
 ### Task 4 : Explore and verify
 
@@ -61,7 +61,7 @@ After the BICEP deployment concludes successfully, the following has been deploy
     - A VPN gateway connected to users VPN gateways,
     - An ER gateway,
     - An Azure Route Server to route branch to branch traffic,
-    - A Windows Server Jumbox,
+    - A Windows Server Jumpbox,
     - A bastion host.
 
 - **The VM will have an auto-shutdown scheduled at night to save cost in your subscription. REMEMBER TO POWER IT ON THE D DAY !**
@@ -73,13 +73,13 @@ Credentials are identical for all VMs, as follows:
 - Username: admin-avs
 - Password: MicroHack/123
 
-You may log on to the jumpbox VM through Bastion to test access is successfull.
+You may log on to the jumpbox VM through Bastion to test access is successful.
 
 You may check BGP is up:
 
 - between your proctor VPN Gateway (ASN 65013) and all users VPN Gateway (Sample here with user 2, ANS 65002 and 4, ASN 65004)
 
-- betwenn your proctor VPN Gateway (ASN 65013) and the Route Server (ASN 65515)
+- between your proctor VPN Gateway (ASN 65013) and the Route Server (ASN 65515)
 
 ![BGP Peers](/Images/schema/avs-microhack-vpn-bgp-proctor-1.png)
 
